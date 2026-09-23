@@ -1,0 +1,13 @@
+{
+  "name": "llistadelacompra",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Tauler intern servit amb autenticacio basica",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
