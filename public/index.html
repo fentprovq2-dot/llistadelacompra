@@ -1,1 +1,2185 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>La retornada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,500..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F3F4F6; --surface:#FFFFFF; --surface-2:#E9ECF0; --line:#D6DBE1; --line-soft:#E6E9EE;
+  --ink:#141B24; --ink-2:#4A5563; --ink-3:#7A8594;
+  --accent:#1D4A73; --accent-soft:#DCE7F2;
+  --mile:#B8741A; --mile-soft:#F6E7CF;
+  --crit:#B42318;
+  --st-pendent:#9AA4B1; --st-pendent-bg:#EEF0F3; --st-pendent-ink:#3F4854;
+  --st-curs:#2F6FB0;   --st-curs-bg:#DDEAF7;   --st-curs-ink:#16426E;
+  --st-bloc:#C2410C;   --st-bloc-bg:#FBE4D6;   --st-bloc-ink:#7A2A08;
+  --st-feta:#2E7D4F;   --st-feta-bg:#DCEFE3;   --st-feta-ink:#1A4D30;
+  --week:#6B7A8C;
+  --display:"Archivo","Arial Narrow",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0F141A; --surface:#161D25; --surface-2:#1E2731; --line:#2C3845; --line-soft:#222C37;
+    --ink:#E7ECF2; --ink-2:#AEB8C4; --ink-3:#7D8997;
+    --accent:#8AB6E0; --accent-soft:#1D3247;
+    --mile:#E0A551; --mile-soft:#3A2B14;
+    --crit:#F07A6E;
+    --st-pendent:#6E7988; --st-pendent-bg:#232C36; --st-pendent-ink:#C3CBD5;
+    --st-curs:#5C9BDB;   --st-curs-bg:#17304A;   --st-curs-ink:#B9D6F3;
+    --st-bloc:#EA7A43;   --st-bloc-bg:#3E2213;   --st-bloc-ink:#F7C3A6;
+    --st-feta:#4FB27A;   --st-feta-bg:#14352A;   --st-feta-ink:#AEE2C3;
+    --week:#8D9AAA;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0F141A; --surface:#161D25; --surface-2:#1E2731; --line:#2C3845; --line-soft:#222C37;
+  --ink:#E7ECF2; --ink-2:#AEB8C4; --ink-3:#7D8997;
+  --accent:#8AB6E0; --accent-soft:#1D3247;
+  --mile:#E0A551; --mile-soft:#3A2B14;
+  --crit:#F07A6E;
+  --st-pendent:#6E7988; --st-pendent-bg:#232C36; --st-pendent-ink:#C3CBD5;
+  --st-curs:#5C9BDB;   --st-curs-bg:#17304A;   --st-curs-ink:#B9D6F3;
+  --st-bloc:#EA7A43;   --st-bloc-bg:#3E2213;   --st-bloc-ink:#F7C3A6;
+  --st-feta:#4FB27A;   --st-feta-bg:#14352A;   --st-feta-ink:#AEE2C3;
+  --week:#8D9AAA;
+}
+*{box-sizing:border-box}
+html{color-scheme:light dark}
+body{background:var(--ground);color:var(--ink);font:14px/1.5 var(--body);margin:0}
+.wrap{max-width:1320px;margin:0 auto;padding-inline:20px;padding-block:18px 48px}
+@media (max-width:560px){.wrap{padding-inline:16px}}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+[hidden]{display:none!important}
 
+/* Header */
+.top{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px 24px;padding-bottom:16px;border-bottom:1px solid var(--line)}
+.eyebrow{font:500 11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin:0 0 6px}
+h1{font:700 30px/1.05 var(--display);font-stretch:82%;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.count{display:flex;align-items:baseline;gap:10px}
+.count-num{font:800 52px/0.9 var(--display);font-stretch:75%;color:var(--accent);font-variant-numeric:tabular-nums}
+.count-txt{font-size:13px;color:var(--ink-2);line-height:1.3}
+.count-txt b{color:var(--ink);font-weight:600}
+
+/* Scenario bar */
+.scen{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch;margin-top:16px}
+.scen-lab{font:500 11px/1.3 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);align-self:center;margin-right:2px}
+.scen button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 12px;cursor:pointer;display:flex;flex-direction:column;gap:2px;text-align:left;min-width:104px}
+.scen button b{font:700 14px/1.1 var(--display);font-stretch:88%}
+.scen button span{font:400 11.5px/1 var(--mono);color:var(--ink-3)}
+.scen button[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.scen button[aria-pressed="true"] span{color:var(--ink-2)}
+.scen-note{font-size:12.5px;color:var(--ink-2);margin:8px 0 0;max-width:80ch}
+
+/* Summary */
+.summary{display:grid;grid-template-columns:minmax(240px,1.5fr) repeat(4,minmax(118px,1fr));gap:12px;margin-top:14px}
+@media (max-width:1040px){.summary{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:640px){.summary{grid-template-columns:1fr 1fr}}
+.tile{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;min-width:0}
+@media (max-width:1040px){.tile:first-child{grid-column:1/-1}}
+.tile-label{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tile-val{font:700 24px/1 var(--display);font-stretch:85%;font-variant-numeric:tabular-nums}
+.tile-sub{font-size:12px;color:var(--ink-2)}
+.tile.warn .tile-val{color:var(--crit)}
+.progress{display:flex;height:10px;border-radius:3px;overflow:hidden;background:var(--surface-2)}
+.progress span{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:12px;color:var(--ink-2)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+
+/* Toolbar */
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;margin-top:18px;padding:10px 0;position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--ground)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;background:var(--surface)}
+.seg button{border:0;background:transparent;padding:7px 13px;cursor:pointer;font-weight:500;color:var(--ink-2)}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--surface)}
+:root[data-theme="dark"] .seg button[aria-pressed="true"]{color:#0F141A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .seg button[aria-pressed="true"]{color:#0F141A}}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--ink-2)}
+.chip[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft);color:var(--ink)}
+.chip.crit[aria-pressed="true"]{border-color:var(--crit);background:transparent;color:var(--crit)}
+.field{display:flex;align-items:center;gap:6px}
+.field label{font-size:12px;color:var(--ink-3)}
+.field select,.field input{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:6px 8px;max-width:220px}
+.field input{width:170px}
+.save{margin-left:auto;font:500 11.5px/1 var(--mono);color:var(--ink-3);display:flex;align-items:center;gap:6px}
+.save i{width:7px;height:7px;border-radius:50%;background:var(--st-feta)}
+.save.busy i{background:var(--mile)}
+.save.local i{background:var(--st-pendent)}
+.save.err i{background:var(--crit)}
+
+/* Gantt */
+.gantt-box{background:var(--surface);border:1px solid var(--line);border-radius:6px;overflow-x:auto;margin-top:6px}
+.gantt{--lw:376px;--dw:8px;position:relative;min-width:calc(var(--lw) + var(--days) * var(--dw))}
+@media (max-width:700px){.gantt{--lw:196px;--dw:6px}}
+.g-row{display:grid;grid-template-columns:var(--lw) 1fr;min-height:34px;border-bottom:1px solid var(--line-soft)}
+.g-row:hover{background:color-mix(in srgb,var(--accent-soft) 45%,transparent)}
+.g-label{position:sticky;left:0;z-index:3;background:var(--surface);display:flex;align-items:center;gap:8px;padding:5px 10px;border-right:1px solid var(--line);min-width:0}
+.g-row:hover .g-label{background:color-mix(in srgb,var(--accent-soft) 45%,var(--surface))}
+.g-id{font:500 11px/1 var(--mono);color:var(--ink-3);width:22px;flex:none;text-align:right;font-variant-numeric:tabular-nums}
+.g-title{flex:1;min-width:0;border:0;background:none;padding:0;text-align:left;cursor:pointer;font-size:13px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.g-title:hover{text-decoration:underline;text-underline-offset:2px}
+.g-pos{display:block;font-size:11.5px;color:var(--ink-3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:700px){.g-pos{display:none}}
+.g-track{position:relative}
+.g-head{position:sticky;top:0;z-index:4;background:var(--surface);border-bottom:1px solid var(--line)}
+.g-head .g-label{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);z-index:5}
+.g-months,.g-weeks{position:relative;height:20px}
+.g-month{position:absolute;top:4px;font:600 12px/1 var(--display);font-stretch:85%;color:var(--ink);padding-left:5px;border-left:1px solid var(--line);height:16px}
+.g-week{position:absolute;top:3px;font:400 10.5px/1 var(--mono);color:var(--week);padding-left:3px}
+.g-group{display:grid;grid-template-columns:var(--lw) 1fr;background:var(--surface-2);border-bottom:1px solid var(--line)}
+.g-group .g-label{background:var(--surface-2);font:700 13px/1.2 var(--display);font-stretch:85%;padding:8px 10px}
+.g-group .g-label small{font:400 11.5px/1 var(--body);color:var(--ink-3);margin-left:6px}
+.g-grid{position:absolute;inset:0 0 0 var(--lw);pointer-events:none;z-index:1}
+.g-grid .wk{position:absolute;top:0;bottom:0;border-left:1px dashed var(--line-soft)}
+.g-grid .band{position:absolute;top:0;bottom:0;background:var(--mile-soft);opacity:.55}
+.g-grid .mline{position:absolute;top:0;bottom:0;border-left:1.5px solid var(--mile)}
+.g-grid .today{position:absolute;top:0;bottom:0;border-left:2px solid var(--accent)}
+.g-flags{position:relative;height:38px}
+.flag{position:absolute;top:3px;transform:translateX(-50%);font:600 10.5px/1 var(--mono);color:var(--mile);background:var(--surface);padding:2px 4px;border:1px solid var(--mile);border-radius:3px;white-space:nowrap}
+.flag.lo{top:20px}
+.flag.today{color:var(--accent);border-color:var(--accent);transform:none;margin-left:3px}
+.bar{position:absolute;top:8px;height:18px;border-radius:3px;z-index:2;cursor:pointer;border:0;padding:0 6px;display:flex;align-items:center;font:500 10.5px/1 var(--mono);white-space:nowrap}
+.bar .due{position:absolute;left:calc(100% + 6px);color:var(--ink-3);font-variant-numeric:tabular-nums}
+.bar.crit{box-shadow:0 0 0 2px var(--crit)}
+.bar.late{background-image:repeating-linear-gradient(135deg,transparent 0 4px,rgba(180,35,24,.35) 4px 7px)}
+.bar.var{background:transparent!important;border:1.5px dashed var(--ink-3);color:var(--ink-2)}
+.st-pendent{background:var(--st-pendent);color:#fff}
+.st-curs{background:var(--st-curs);color:#fff}
+.st-bloc{background:var(--st-bloc);color:#fff}
+.st-feta{background:var(--st-feta);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 8px 2px 6px;font-size:11.5px;font-weight:600;border:0;cursor:pointer;white-space:nowrap;flex:none}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.p-pendent{background:var(--st-pendent-bg);color:var(--st-pendent-ink)}
+.p-curs{background:var(--st-curs-bg);color:var(--st-curs-ink)}
+.p-bloc{background:var(--st-bloc-bg);color:var(--st-bloc-ink)}
+.p-feta{background:var(--st-feta-bg);color:var(--st-feta-ink)}
+.risk{flex:none;font:600 10px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--crit);border:1px solid var(--crit);border-radius:3px;padding:3px 4px}
+.g-row.done .g-title{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--ink-3)}
+.g-key{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px;color:var(--ink-2);margin-top:10px}
+.g-key span{display:inline-flex;align-items:center;gap:6px}
+.k-crit{width:16px;height:9px;border-radius:2px;box-shadow:0 0 0 2px var(--crit);background:var(--st-pendent)}
+.k-var{width:16px;height:9px;border-radius:2px;border:1.5px dashed var(--ink-3)}
+.k-late{width:16px;height:9px;border-radius:2px;background:var(--st-pendent) repeating-linear-gradient(135deg,transparent 0 3px,rgba(180,35,24,.5) 3px 5px)}
+.k-mile{width:2px;height:12px;background:var(--mile)}
+.k-today{width:2px;height:12px;background:var(--accent)}
+.k-band{width:16px;height:10px;background:var(--mile-soft)}
+
+/* Kanban */
+.kanban{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:6px;align-items:start}
+@media (max-width:980px){.kanban{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.kanban{grid-template-columns:1fr}}
+.col{background:var(--surface-2);border-radius:6px;padding:10px;min-height:120px;display:flex;flex-direction:column;gap:8px;border:1px solid transparent}
+.col.over{border-color:var(--accent);background:var(--accent-soft)}
+.col-head{display:flex;align-items:center;justify-content:space-between;padding:2px 2px 4px}
+.col-head h2{font:700 15px/1 var(--display);font-stretch:85%;margin:0;display:flex;align-items:center;gap:7px}
+.col-head h2 i{width:9px;height:9px;border-radius:2px}
+.col-head span{font:500 12px/1 var(--mono);color:var(--ink-3)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:5px;padding:9px 10px;display:flex;flex-direction:column;gap:6px;cursor:grab}
+.card:active{cursor:grabbing}
+.card.dragging{opacity:.45}
+.card.crit{border-color:color-mix(in srgb,var(--crit) 55%,var(--line))}
+.card-top{display:flex;gap:8px;align-items:baseline;justify-content:space-between}
+.card-title{border:0;background:none;padding:0;text-align:left;cursor:pointer;font-size:13px;font-weight:500;line-height:1.35}
+.card-title:hover{text-decoration:underline;text-underline-offset:2px}
+.card-meta{display:flex;flex-wrap:wrap;gap:4px 10px;font-size:11.5px;color:var(--ink-3);align-items:center}
+.date{font:500 11px/1 var(--mono);font-variant-numeric:tabular-nums;color:var(--ink-2)}
+.date.late{color:var(--crit)}
+.tag{font:600 10px/1 var(--mono);letter-spacing:.05em;text-transform:uppercase;padding:3px 5px;border-radius:3px}
+.tag.crit{color:var(--crit);border:1px solid var(--crit)}
+.tag.ph{color:var(--ink-2);background:var(--surface-2)}
+.card select{border:1px solid var(--line);background:var(--surface);border-radius:4px;font-size:12px;padding:3px 4px}
+.empty{font-size:12.5px;color:var(--ink-3);padding:6px 2px}
+.none{padding:28px;text-align:center;color:var(--ink-2);background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-top:6px}
+
+/* Taules (programa i escenaris) */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:6px;margin-top:6px;overflow-x:auto}
+.panel table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:680px}
+.panel th{text-align:left;font:500 11px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);padding:9px 12px;white-space:nowrap}
+.panel td{padding:9px 12px;border-top:1px solid var(--line-soft);vertical-align:top;line-height:1.45}
+.panel tr.now td{background:color-mix(in srgb,var(--accent-soft) 50%,transparent)}
+.panel tr.key td{font-weight:500}
+.day{font:500 12px/1.3 var(--mono);color:var(--ink-2);white-space:nowrap;font-variant-numeric:tabular-nums}
+.day b{display:block;font:700 13px/1.2 var(--display);font-stretch:88%;color:var(--ink)}
+.notes{display:flex;flex-wrap:wrap;gap:4px}
+.note{font-size:11.5px;color:var(--ink-2);background:var(--surface-2);border-radius:3px;padding:2px 6px;white-space:nowrap}
+.note.alert{color:var(--crit);background:transparent;border:1px solid var(--crit);white-space:normal}
+.panel .pick{border:1px solid var(--line);background:var(--surface);border-radius:5px;padding:4px 10px;cursor:pointer;font-size:12px;white-space:nowrap}
+.panel .pick[disabled]{opacity:.5;cursor:default}
+.bar-mini{display:flex;align-items:center;gap:7px}
+.bar-mini i{display:block;height:7px;border-radius:2px;background:var(--accent);min-width:2px}
+.caption{font-size:12.5px;color:var(--ink-2);margin:10px 0 0;max-width:80ch}
+
+/* Dialog */
+dialog{border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);padding:0;width:min(560px,calc(100vw - 32px));max-height:calc(100vh - 48px)}
+dialog::backdrop{background:rgba(10,14,20,.45)}
+.dlg{padding:20px 22px;display:flex;flex-direction:column;gap:14px}
+.dlg-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.dlg h2{font:700 20px/1.2 var(--display);font-stretch:85%;margin:4px 0 0;text-wrap:balance}
+.x{border:1px solid var(--line);background:var(--surface);border-radius:5px;width:30px;height:30px;cursor:pointer;flex:none;font-size:16px;line-height:1}
+.facts{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.facts dt{font:500 11px/1.6 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
+.facts dd{margin:0}
+.st-pick{display:flex;flex-wrap:wrap;gap:6px}
+.st-pick button{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 12px;cursor:pointer;font-size:12.5px;font-weight:500}
+.st-pick button[aria-pressed="true"]{border-color:transparent}
+.links{display:flex;flex-direction:column;gap:4px;margin:0;padding:0;list-style:none}
+.links button{border:0;background:none;padding:0;cursor:pointer;text-align:left;color:var(--accent);font-size:13px}
+.links button:hover{text-decoration:underline}
+.muted{color:var(--ink-3);font-size:13px}
+.warnbox{border:1px solid var(--crit);border-radius:5px;padding:9px 11px;font-size:13px;color:var(--ink)}
+.authbar{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:12px 14px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:flex-end}
+.authbar .f{display:flex;flex-direction:column;gap:4px}
+.authbar label{font:500 11px/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.authbar input{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:7px 9px;width:200px}
+.authbar button{border:1px solid var(--accent);background:var(--accent);color:var(--surface);border-radius:6px;padding:8px 16px;cursor:pointer;font-weight:500}
+:root[data-theme="dark"] .authbar button{color:#0F141A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .authbar button{color:#0F141A}}
+.authbar p{margin:0;font-size:13px;color:var(--ink-2);flex:1 1 240px;min-width:0}
+.authbar .err{color:var(--crit)}
+.qui{font-size:12.5px;color:var(--ink-3)}
+.foot{margin-top:22px;font-size:12px;color:var(--ink-3);max-width:80ch}
+@media (prefers-reduced-motion:no-preference){.card,.bar{transition:opacity .15s}}
+
+[hidden]{display:none!important}
+/* Tabs */
+.tabs{display:flex;gap:4px;margin-top:14px;border-bottom:1px solid var(--line)}
+.tabs a{padding:9px 14px;text-decoration:none;color:var(--ink-2);font-weight:600;font-size:14px;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tabs a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+/* Document */
+.doc{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;margin-top:24px}
+@media (max-width:900px){.doc{grid-template-columns:1fr;gap:16px}}
+.toc{position:sticky;top:16px;align-self:start}
+@media (max-width:900px){.toc{position:static}}
+.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:s}
+.toc a{display:block;padding:4px 8px;border-radius:4px;color:var(--ink-2);text-decoration:none;font-size:13px}
+.toc a:hover{background:var(--surface-2);color:var(--ink)}
+.prose{max-width:880px;min-width:0}
+.prose h2{font:700 24px/1.15 var(--display);font-stretch:85%;margin:40px 0 10px;padding-top:14px;border-top:1px solid var(--line);text-wrap:balance;scroll-margin-top:16px}
+.prose h2:first-child{margin-top:0;border-top:0;padding-top:0}
+.prose h3{font:700 16px/1.25 var(--display);font-stretch:90%;margin:26px 0 8px}
+.prose p,.prose li{max-width:70ch;font-size:15px;line-height:1.6}
+.prose ul,.prose ol{padding-left:22px}
+.tbl{overflow-x:auto;margin:12px 0 18px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+.prose table{border-collapse:collapse;width:100%;font-size:13.5px}
+.prose th{text-align:left;font:500 11px/1.3 var(--mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);background:var(--surface-2);padding:9px 12px;white-space:nowrap}
+.prose td{padding:8px 12px;border-top:1px solid var(--line-soft);vertical-align:top;line-height:1.45}
+.prose tr:hover td{background:color-mix(in srgb,var(--accent-soft) 35%,transparent)}
+.dg{margin:14px 0 18px;font-size:13px}
+.dg-box{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.dg-box b{font:700 13.5px/1.2 var(--display);font-stretch:90%}
+.dg-box span{color:var(--ink-3);font-size:12px}
+.dg-main{border-color:var(--accent);background:var(--accent-soft)}
+.dg-arr{font-style:normal;color:var(--ink-3);align-self:center}
+.dg-flow,.dg-steps{display:flex;flex-wrap:wrap;gap:8px;align-items:stretch}
+.dg-flow .dg-box,.dg-steps .dg-box{flex:1 1 120px}
+.dg-org{display:flex;flex-direction:column;align-items:center}
+.dg-row{display:flex;justify-content:center;min-width:220px}
+.dg-v{width:1px;height:14px;background:var(--line)}
+.dg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;border-top:1px solid var(--line);padding-top:14px}
+@media (max-width:560px){.dg-grid{grid-template-columns:1fr 1fr}}
+.io{display:flex;gap:6px}
+.io button{border:1px solid var(--line);background:var(--surface);border-radius:6px;padding:5px 10px;cursor:pointer;font-size:12px}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Document intern · Ús exclusiu</p>
+      <h1>La retornada</h1>
+    </div>
+    <div class="count" aria-live="polite">
+      <span class="count-num" id="cd-num">–</span>
+      <span class="count-txt" id="cd-txt"></span>
+    </div>
+  </header>
+  <nav class="tabs" aria-label="Seccions principals"><a href="#projecte" id="tab-projecte">Projecte executiu</a><a href="#tauler" id="tab-tauler">Tauler de tasques</a></nav>
+  <div id="pane-projecte" class="doc"><nav class="toc" aria-label="Seccions"><p class="eyebrow">Seccions</p><ol><li><a href="#s-resum-executiu">Resum executiu</a></li><li><a href="#s-fases-del-projecte">Fases del projecte</a></li><li><a href="#s-estructura-organitzativa">Estructura organitzativa</a></li><li><a href="#s-governana-i-circuit-de-decisions">Governança i circuit de decisions</a></li><li><a href="#s-escenaris-judicials-i-calendari-retroactiu">Escenaris judicials i calendari retroactiu</a></li><li><a href="#s-dates-alternatives-de-retorn">Dates alternatives de retorn</a></li><li><a href="#s-programa-detallat-del-10-al-18-de-desembre">Programa detallat del 10 al 18 de desembre</a></li><li><a href="#s-seguretat">Seguretat</a></li><li><a href="#s-pla-de-comunicaci-i-premsa">Pla de comunicació i premsa</a></li><li><a href="#s-registre-de-riscos">Registre de riscos</a></li><li><a href="#s-decisions-pendents">Decisions pendents</a></li><li><a href="#s-recursos-i-pressupost">Recursos i pressupost</a></li></ol></nav><article class="prose"><h2 id="s-resum-executiu">Resum executiu</h2>
+<p>El retorn efectiu del president 130 és el dissabte 12 de desembre de 2026, i la primera fase es tanca el divendres 18. L'única variable que no controlem és la data de la resolució judicial ferma (Dia 0) i de la documentació del TS (Primer dia). Per això el pla s'organitza en escenaris, amb una decisió final de go / no-go el 7 de desembre.</p>
+<h3>Objectius</h3>
+<ol>
+<li><strong>Institucional.</strong> Escenificar el retorn a les institucions: Parlament (12 i 16 de desembre), Ajuntament de Girona (15) i partit (14).</li>
+<li><strong>Polític.</strong> Presentar el 17 de desembre un full de ruta per al conjunt de l'independentisme, vinculat a un model de país.</li>
+<li><strong>Personal i simbòlic.</strong> Preservar els moments íntims: Amer, la casa natal, Girona i la família.</li>
+<li><strong>Seguretat.</strong> Garantir una operativa sense incidents, amb o sense la col·laboració d'Interior.</li>
+<li><strong>Comunicació.</strong> Controlar el relat: una seqüència clara d'imatges, declaracions i entrevistes.</li>
+<li><strong>Continuïtat.</strong> Encarar el 18 de desembre amb l'agenda de normalitat i la gira pel país ja dissenyades, amb les municipals com a prioritat.</li>
+</ol>
+<h3>Principis de treball</h3>
+<ul>
+<li>Una sola coordinació general. Tothom sap a qui adreçar consultes, suggeriments i incidències.</li>
+<li>Cada tasca té una posició responsable, una data límit i un estat.</li>
+<li>Tota decisió que afecti diversos equips passa per la coordinació general.</li>
+<li>La informació operativa de seguretat circula només entre les posicions que la necessiten.</li>
+</ul>
+<h2 id="s-fases-del-projecte">Fases del projecte</h2>
+<p>El projecte té sis fases. Les tres primeres depenen del calendari judicial; a partir del 10 de desembre el calendari és fix.</p>
+<div class="dg dg-flow" role="img" aria-label="Fases del projecte"><div class="dg-box"><b>F0 Preparació</b><span>des d'avui</span></div><i class="dg-arr" aria-hidden="true">→</i><div class="dg-box"><b>F1 Activació</b><span>Dia 0 i Primer dia</span></div><i class="dg-arr" aria-hidden="true">→</i><div class="dg-box"><b>F2 Preparació final</b><span>fins al 9 des</span></div><i class="dg-arr" aria-hidden="true">→</i><div class="dg-box"><b>F3 Setmana del retorn</b><span>10–17 des</span></div><i class="dg-arr" aria-hidden="true">→</i><div class="dg-box"><b>F4 Normalitat</b><span>des del 18 des</span></div><i class="dg-arr" aria-hidden="true">→</i><div class="dg-box"><b>F5 Darrera fase</b><span>PPCC, Euskal Herria, món</span></div></div>
+<p>La fase 0 no espera la resolució judicial: s'hi fan totes les reserves i contractacions que necessiten antelació.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Fase</th>
+<th>Període</th>
+<th>Objectiu</th>
+<th>Entregables clau</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>F0 Preparació</td>
+<td>22 set – Dia 0</td>
+<td>Tenir-ho tot a punt per activar-ho en 24 hores</td>
+<td>Equip constituït, reserves fetes, Kučan confirmat, escenaris aprovats</td>
+</tr>
+<tr>
+<td>F1 Activació</td>
+<td>Dia 0 – Primer dia</td>
+<td>Anunciar i fer públic el calendari</td>
+<td>Declaracions a la Casa de la República, comunicat amb l'agenda, inscripcions a la conferència obertes</td>
+</tr>
+<tr>
+<td>F2 Preparació final</td>
+<td>Primer dia – 9 des</td>
+<td>Tancar escaletes, seguretat i premsa</td>
+<td>Reunió general (30 nov), escaletes validades, go / no-go (7 des)</td>
+</tr>
+<tr>
+<td>F3 Setmana del retorn</td>
+<td>10 – 17 des</td>
+<td>Executar el programa sense incidents</td>
+<td>Trasllat, Parlament, Amer, Girona, executiva, Ple, conferència</td>
+</tr>
+<tr>
+<td>F4 Normalitat</td>
+<td>Des del 18 des</td>
+<td>Passar de l'excepcionalitat a l'agenda ordinària</td>
+<td>Agenda d'actes, itinerari pel país, política d'entrevistes</td>
+</tr>
+<tr>
+<td>F5 Darrera fase</td>
+<td>2027</td>
+<td>Retorn als Països Catalans, Euskal Herria, Espanya i resta del món</td>
+<td>Prioritats, itinerari i pla de seguretat específic</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Fites principals</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Data</th>
+<th>Fita</th>
+<th>Tipus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>30 set</td>
+<td>Equip constituït i posicions cobertes</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>15 oct</td>
+<td>Kučan confirmat i espai de la conferència reservat</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>31 oct</td>
+<td>Allotjament a la Catalunya Nord contractat</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>20 nov</td>
+<td>Escaletes en primera versió i pancartes de l'ANC acordades</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>30 nov</td>
+<td>Reunió general de tots els equips</td>
+<td>Fixada al document</td>
+</tr>
+<tr>
+<td>7 des</td>
+<td>Go / no-go final</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>10 des</td>
+<td>Sortida de Waterloo</td>
+<td>Fixada al document</td>
+</tr>
+<tr>
+<td>12 des</td>
+<td>Retorn efectiu</td>
+<td>Fixada al document</td>
+</tr>
+<tr>
+<td>17 des</td>
+<td>Conferència política</td>
+<td>Fixada al document</td>
+</tr>
+<tr>
+<td>18 des</td>
+<td>Inici de la normalitat</td>
+<td>Fixada al document</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-estructura-organitzativa">Estructura organitzativa</h2>
+<p>L'equip s'organitza en sis àrees sota una coordinació general, amb 21 posicions a cobrir. Algunes les pot acumular una mateixa persona; les marcades com a crítiques, no.</p>
+<div class="dg dg-org" role="img" aria-label="Organigrama"><div class="dg-row"><div class="dg-box"><b>President 130</b></div></div><div class="dg-v" aria-hidden="true"></div><div class="dg-row"><div class="dg-box dg-main"><b>Coordinació general</b><span>+ secretaria tècnica</span></div></div><div class="dg-v" aria-hidden="true"></div><div class="dg-grid"><div class="dg-box"><b>Logística i seguretat</b><span>4 posicions</span></div><div class="dg-box"><b>Comunicació i premsa</b><span>4 posicions</span></div><div class="dg-box"><b>Protocol i actes</b><span>3 posicions</span></div><div class="dg-box"><b>Relacions institucionals</b><span>5 posicions</span></div><div class="dg-box"><b>Conferència</b><span>Oficina d'expresident</span></div><div class="dg-box"><b>Administració</b><span>i pressupost</span></div></div></div>
+<p>La coordinació general és l'únic punt d'entrada de consultes i incidències; cada àrea respon davant seu.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Àrea</th>
+<th>Posició</th>
+<th>Funcions principals</th>
+<th>Crítica</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Coordinació</td>
+<td>Coordinador/a general</td>
+<td>Direcció del projecte, decisions transversals, go / no-go amb el president</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Coordinació</td>
+<td>Secretaria tècnica</td>
+<td>Tauler de tasques, actes de reunions, directori de contactes, registre d'incidències</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Logística i seguretat</td>
+<td>Cap de logística i seguretat</td>
+<td>Operativa completa de desplaçaments, espais i seguretat</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Logística i seguretat</td>
+<td>Responsable de seguretat</td>
+<td>Enllaç amb Interior i escorta, pla alternatiu, ponts de l'autopista</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Logística i seguretat</td>
+<td>Responsable de comitiva i desplaçaments</td>
+<td>Vehicles, conductors, motos d'avançada, vehicle belga, rutes i horaris</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Logística i seguretat</td>
+<td>Responsable d'allotjament i espais</td>
+<td>Catalunya Nord, espai de la conferència, espais de reserva</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Comunicació</td>
+<td>Cap de comunicació</td>
+<td>Relat, missatges per dia, portaveu interna</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Comunicació</td>
+<td>Responsable de premsa</td>
+<td>Acreditacions, autocar de premsa, sala Companys, peticions d'entrevista</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Comunicació</td>
+<td>Responsable de continguts</td>
+<td>Declaracions, comunicats, discursos del 12, 16 i 17</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Comunicació</td>
+<td>Responsable d'audiovisual i xarxes</td>
+<td>Imatge pròpia, retransmissions, xarxes del partit i d'expresident</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Protocol i actes</td>
+<td>Cap de protocol</td>
+<td>Precedències, invitacions, criteris de cada acte</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Protocol i actes</td>
+<td>Responsable de producció d'actes</td>
+<td>Escaletes minut a minut, muntatge, so i escenografia</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Protocol i actes</td>
+<td>Responsable de convidats</td>
+<td>Llistes, confirmacions, acompanyament de convidats</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Relacions institucionals</td>
+<td>Enllaç amb el Parlament</td>
+<td>Presidència del Parlament, grup parlamentari, acte del 12 i Ple del 16</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Relacions institucionals</td>
+<td>Enllaç amb el partit</td>
+<td>Secretaria general, executiva nacional, declaracions, gira posterior</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Relacions institucionals</td>
+<td>Enllaç amb el territori</td>
+<td>Ajuntaments d'Amer i Girona, Bisbat, Catalunya Nord</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Relacions institucionals</td>
+<td>Enllaç amb entitats</td>
+<td>ANC i altres entitats, pancartes, mobilització</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Relacions institucionals</td>
+<td>Responsable d'agenda i territori</td>
+<td>Agenda d'actes des del 18 de desembre, itinerari pel país</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Conferència</td>
+<td>Responsable de la conferència</td>
+<td>Oficina d'expresident, contingut, espai, inscripcions</td>
+<td>Sí</td>
+</tr>
+<tr>
+<td>Conferència</td>
+<td>Responsable de relacions internacionals</td>
+<td>Kučan, convidats internacionals, viatges i allotjament</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Administració</td>
+<td>Responsable d'administració i pressupost</td>
+<td>Contractes, pagaments, control de despesa</td>
+<td>No</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-governana-i-circuit-de-decisions">Governança i circuit de decisions</h2>
+<p>Les decisions es prenen en tres nivells, i el ritme de reunions s'accelera a mesura que s'acosta el 12 de desembre.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Nivell</th>
+<th>Qui</th>
+<th>Què decideix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Estratègic</td>
+<td>President 130 + coordinador/a general</td>
+<td>Escenari judicial, go / no-go, missatge polític, entrevistes</td>
+</tr>
+<tr>
+<td>Tàctic</td>
+<td>Coordinació general + caps d'àrea</td>
+<td>Calendari, escaletes, pressupost, pla B de seguretat</td>
+</tr>
+<tr>
+<td>Operatiu</td>
+<td>Cada àrea</td>
+<td>Execució de les seves tasques dins del termini i el pressupost</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Ritme de reunions</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Període</th>
+<th>Reunió</th>
+<th>Freqüència</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fins al Dia 0</td>
+<td>Comitè de coordinació (caps d'àrea)</td>
+<td>Setmanal, dilluns</td>
+</tr>
+<tr>
+<td>Del Primer dia al 30 de novembre</td>
+<td>Comitè de coordinació</td>
+<td>Dues per setmana</td>
+</tr>
+<tr>
+<td>30 de novembre</td>
+<td>Reunió general de tots els equips</td>
+<td>Única</td>
+</tr>
+<tr>
+<td>Del 1 al 9 de desembre</td>
+<td>Comitè de coordinació</td>
+<td>Diària, 15 minuts</td>
+</tr>
+<tr>
+<td>Del 10 al 17 de desembre</td>
+<td>Briefing del dia i balanç del vespre</td>
+<td>Dues diàries</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Gestió d'incidències</h3>
+<div class="dg dg-steps" role="img" aria-label="Circuit d'incidències"><div class="dg-box"><b>Incidència detectada</b></div><i class="dg-arr">→</i><div class="dg-box"><b>Cap d'àrea</b><span>si es resol dins l'àrea: registre a secretaria</span></div><i class="dg-arr">→</i><div class="dg-box"><b>Coordinació general</b><span>si afecta altres àrees</span></div><i class="dg-arr">→</i><div class="dg-box"><b>President 130</b><span>si afecta el programa o la seguretat</span></div></div>
+<p>Durant la setmana del retorn, tota incidència de seguretat va directament de la persona responsable de seguretat a la coordinació general, sense passar pel cap d'àrea.</p>
+<h2 id="s-escenaris-judicials-i-calendari-retroactiu">Escenaris judicials i calendari retroactiu</h2>
+<p>El pla es manté per al 12 de desembre si la documentació del TS arriba abans del 4 de desembre. Més tard, el retorn s'ajorna. Hi ha tres escenaris segons la data del Primer dia.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Escenari</th>
+<th>Primer dia</th>
+<th>Què passa</th>
+<th>Decisió</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. Pla complet</td>
+<td>Abans del 15 de novembre</td>
+<td>Es manté el programa sencer, amb quatre setmanes de preparació final</td>
+<td>Activar el programa tal com està</td>
+</tr>
+<tr>
+<td>B. Pla comprimit</td>
+<td>Del 15 de novembre al 4 de desembre</td>
+<td>Es manté el 12 de desembre. La reunió general s'avança o es fusiona amb l'activació; el període d'inscripcions a la conferència s'escurça</td>
+<td>Activar amb prioritats: seguretat, Parlament, conferència</td>
+</tr>
+<tr>
+<td>C. Ajornament</td>
+<td>Després del 4 de desembre, o sense resolució</td>
+<td>Es desconvoca el 12 de desembre i es fixa una nova data, amb un mínim de tres setmanes de marge i evitant les festes de Nadal</td>
+<td>Nova data proposada per la coordinació general</td>
+</tr>
+</tbody>
+</table></div>
+<p>Per protegir els escenaris B i C, totes les reserves (allotjament, espai de la conferència, vehicles, viatges internacionals) s'han de contractar amb cancel·lació o canvi de data flexibles.</p>
+<h3>Calendari retroactiu</h3>
+<p>Compte enrere des del 12 de desembre (D). Les dates marcades com a proposades són terminis suggerits per complir els lliuraments fixats al document.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Data</th>
+<th>D − dies</th>
+<th>Fita</th>
+<th>Estat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>22 set</td>
+<td>D − 81</td>
+<td>Inici del projecte</td>
+<td>Inici</td>
+</tr>
+<tr>
+<td>30 set</td>
+<td>D − 73</td>
+<td>Equip constituït i posicions cobertes</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>15 oct</td>
+<td>D − 58</td>
+<td>Kučan confirmat i espai de la conferència reservat</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>31 oct</td>
+<td>D − 42</td>
+<td>Allotjament a la Catalunya Nord contractat</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>15 nov</td>
+<td>D − 27</td>
+<td>Límit de l'escenari A</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>20 nov</td>
+<td>D − 22</td>
+<td>Escaletes en primera versió i pancartes de l'ANC acordades</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>30 nov</td>
+<td>D − 12</td>
+<td>Reunió general de tots els equips</td>
+<td>Fixada</td>
+</tr>
+<tr>
+<td>4 des</td>
+<td>D − 8</td>
+<td>Límit de l'escenari B</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>7 des</td>
+<td>D − 5</td>
+<td>Go / no-go final</td>
+<td>Proposada</td>
+</tr>
+<tr>
+<td>10 des</td>
+<td>D − 2</td>
+<td>Sortida de Waterloo</td>
+<td>Fixada</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-dates-alternatives-de-retorn">Dates alternatives de retorn</h2>
+<p>Segons quan es decideixi l'amnistia, el retorn pot avançar-se a un dissabte anterior. Hi ha cinc dates possibles, totes en dissabte i separades per catorze dies. El programa de la setmana es manté igual en totes; el que canvia és el temps de preparació, que passa de 80 dies a 24.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Escenari</th>
+<th>Retorn</th>
+<th>Dies des del 23 de setembre</th>
+<th>Compressió del calendari</th>
+<th>Viabilitat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>Dissabte 17 d'octubre</td>
+<td>24</td>
+<td>30 % del pla</td>
+<td>Només amb programa reduït</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>Dissabte 31 d'octubre</td>
+<td>38</td>
+<td>47 % del pla</td>
+<td>Difícil, conferència al límit</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>Dissabte 14 de novembre</td>
+<td>52</td>
+<td>65 % del pla</td>
+<td>Viable amb pressa</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>Dissabte 28 de novembre</td>
+<td>66</td>
+<td>82 % del pla</td>
+<td>Viable</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>Dissabte 12 de desembre</td>
+<td>80</td>
+<td>Pla complet</td>
+<td>Pla de referència</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Dates límit de cada escenari</h3>
+<p>Totes les dates es deriven del dia del retorn (D) amb la mateixa regla que el pla de referència: l'escenari judicial A tanca a D − 27, la documentació del TS ha d'arribar com a molt tard a D − 8, la reunió general es fa a D − 12 i el go / no-go a D − 5.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Escenari</th>
+<th>Límit escenari A (D − 27)</th>
+<th>Reunió general (D − 12)</th>
+<th>Límit documentació TS (D − 8)</th>
+<th>Go / no-go (D − 5)</th>
+<th>Sortida de Waterloo (D − 2)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1 · 17 oct</td>
+<td>20 set (ja passat)</td>
+<td>5 oct</td>
+<td>9 oct</td>
+<td>12 oct</td>
+<td>15 oct</td>
+</tr>
+<tr>
+<td>R2 · 31 oct</td>
+<td>4 oct</td>
+<td>19 oct</td>
+<td>23 oct</td>
+<td>26 oct</td>
+<td>29 oct</td>
+</tr>
+<tr>
+<td>R3 · 14 nov</td>
+<td>18 oct</td>
+<td>2 nov</td>
+<td>6 nov</td>
+<td>9 nov</td>
+<td>12 nov</td>
+</tr>
+<tr>
+<td>R4 · 28 nov</td>
+<td>1 nov</td>
+<td>16 nov</td>
+<td>20 nov</td>
+<td>23 nov</td>
+<td>26 nov</td>
+</tr>
+<tr>
+<td>R5 · 12 des</td>
+<td>15 nov</td>
+<td>30 nov</td>
+<td>4 des</td>
+<td>7 des</td>
+<td>10 des</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Programa de la setmana en cada escenari</h3>
+<p>En els cinc escenaris el Ple cau el dimecres de la setmana del retorn. Si en algun moment el Parlament mou una sessió, el tauler busca el primer dia de Ple de la setmana i hi reacomoda la resta d'actes.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Escenari</th>
+<th>Retorn (ds)</th>
+<th>Girona (dg)</th>
+<th>Executiva (dl)</th>
+<th>Ajuntament de Girona</th>
+<th>Ple del Parlament</th>
+<th>Conferència</th>
+<th>Inici de la normalitat</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>R1</td>
+<td>17 oct</td>
+<td>18 oct</td>
+<td>19 oct</td>
+<td>20 oct</td>
+<td>21 oct</td>
+<td>22 oct</td>
+<td>23 oct</td>
+</tr>
+<tr>
+<td>R2</td>
+<td>31 oct</td>
+<td>1 nov</td>
+<td>2 nov</td>
+<td>3 nov</td>
+<td>4 nov</td>
+<td>5 nov</td>
+<td>6 nov</td>
+</tr>
+<tr>
+<td>R3</td>
+<td>14 nov</td>
+<td>15 nov</td>
+<td>16 nov</td>
+<td>17 nov</td>
+<td>18 nov</td>
+<td>19 nov</td>
+<td>20 nov</td>
+</tr>
+<tr>
+<td>R4</td>
+<td>28 nov</td>
+<td>29 nov</td>
+<td>30 nov</td>
+<td>1 des</td>
+<td>2 des</td>
+<td>3 des</td>
+<td>4 des</td>
+</tr>
+<tr>
+<td>R5</td>
+<td>12 des</td>
+<td>13 des</td>
+<td>14 des</td>
+<td>15 des</td>
+<td>16 des</td>
+<td>17 des</td>
+<td>18 des</td>
+</tr>
+</tbody>
+</table></div>
+<h3>El que canvia en cada escenari</h3>
+<p><strong>R1 · 17 d'octubre.</strong> Només 24 dies. Tres compromisos del pla no hi caben: la presència de Milan Kučan, que necessita unes tres setmanes entre invitació, confirmació i viatge; la reserva i producció de l'espai de la conferència; i el termini de resposta d'Interior sobre l'escorta. La conferència s'hauria de desvincular del retorn i fer-se més endavant, o bé celebrar-se amb una intervenció gravada de Kučan. El Ple encaixa perfectament el dimecres 21. El 23 d'octubre comencen les Fires de Girona, de manera que el primer dia de normalitat coincideix amb l'inici de les Fires.</p>
+<p><strong>R2 · 31 d'octubre.</strong> El retorn cauria dos dies després del novè aniversari de la sortida a l'exili i durant les Fires de Girona i Sant Narcís, que és el marc simbòlic més potent dels cinc, i també el més exigent en seguretat per l'afluència a la ciutat. La setmana té dues particularitats: el diumenge és Tots Sants i el Ple cau el 4 de novembre, Sant Carles, l'onomàstica del president. El divendres 6 és l'aniversari de la mort del pare del president, i el dissabte 7 la Diada de la Catalunya Nord, que podria ser el primer acte de país.</p>
+<p><strong>R3 · 14 de novembre.</strong> El calendari es compleix amb pressa però sense forats. L'únic punt delicat és el 20 de novembre, que en aquest escenari seria el primer dia de normalitat: és l'aniversari de la mort de Franco i convé no programar-hi cap acte públic. Es recomana començar l'agenda el dissabte 21.</p>
+<p><strong>R4 · 28 de novembre.</strong> És l'alternativa més sòlida si el pla del 12 de desembre decau. Manté vuit setmanes de preparació i el Ple del 2 de desembre. El primer dia de normalitat cau el 4 de desembre, inici del pont de la Puríssima, cosa que resta ressò mediàtic però dona quatre dies de descans abans de reprendre l'agenda.</p>
+<p><strong>R5 · 12 de desembre.</strong> El pla de referència, amb el calendari complet descrit a la resta del document.</p>
+<h3>Criteris comuns</h3>
+<ul>
+<li>En els cinc escenaris la conferència cau dins d'una setmana de Ple del Parlament. Cal acordar-ho amb la presidència de la cambra i amb el grup perquè no es buidi ni la sala ni l'hemicicle.</li>
+<li>Els contractes amb data (espai de la conferència, allotjament, vehicles, viatges) s'han de signar amb possibilitat de canvi de data, no només de cancel·lació, perquè serveixin per a qualsevol dels cinc escenaris.</li>
+<li>Les tasques amb terminis externs (Kučan, espai de la conferència, escorta, acreditacions) són les que decideixen si un escenari és possible. El tauler les marca com a tasques en risc quan la data escollida no els deixa prou marge.</li>
+<li>Si es tria un escenari anterior al 12 de desembre, la conferència és l'element que s'ha de poder desacoblar del retorn sense trencar la resta del programa.</li>
+</ul>
+<h2 id="s-programa-detallat-del-10-al-18-de-desembre">Programa detallat del 10 al 18 de desembre</h2>
+<p>Aquest és el programa de l'escenari R5, el del 12 de desembre. Recull l'agenda del document original i assigna cada acte a l'àrea que el lidera. Les hores sense concretar queden pendents de les escaletes.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Dia</th>
+<th>Hora</th>
+<th>Activitat</th>
+<th>Àrea líder</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dj 10 des</td>
+<td>Matí</td>
+<td>Sortida de la Casa de la República i baixada de les banderes, que s'endú el president</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Dj 10 des</td>
+<td>Tot el dia</td>
+<td>Desplaçament en cotxe fins a la Catalunya Nord i pernoctació</td>
+<td>Logística i seguretat</td>
+</tr>
+<tr>
+<td>Dv 11 des</td>
+<td>Per concretar</td>
+<td>Trobada d'expresidents a la Catalunya Nord (si no n'hi ha, la sortida de Waterloo passa a aquest dia)</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Matí</td>
+<td>Sortida de Perpinyà: vehicle central encapsulat per almenys dos vehicles davant i darrere, motos d'avançada, vehicle belga a la comitiva sense el president, autocar de premsa</td>
+<td>Logística i seguretat</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Durant el trajecte</td>
+<td>Pancartes als 11 ponts de l'autopista</td>
+<td>Relacions institucionals (ANC)</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>12:00</td>
+<td>Arribada al Parlament i reunió privada amb el president Rull, sense off</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Després</td>
+<td>Compareixença a la sala Companys, amb un sol faristol: anunci de l'assistència al Ple del 16</td>
+<td>Comunicació</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Després</td>
+<td>Acte a l'auditori del Parlament</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Després</td>
+<td>Salutació i acte simbòlic a l'exterior del Parlament</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>14:30</td>
+<td>Sortida cap a Amer</td>
+<td>Logística i seguretat</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>17:00</td>
+<td>Arribada a Amer, visita privada al cementiri i casa natal</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>19:00</td>
+<td>Rebuda a l'Ajuntament d'Amer</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Ds 12 des</td>
+<td>Vespre</td>
+<td>Trasllat a Sant Julià de Ramis i salutació a la dotació de Mossos que vigila la casa</td>
+<td>Logística i seguretat</td>
+</tr>
+<tr>
+<td>Dg 13 des</td>
+<td>Matí</td>
+<td>Passejada per Girona fins a l'hora de dinar</td>
+<td>Logística i seguretat</td>
+</tr>
+<tr>
+<td>Dg 13 des</td>
+<td>Tarda</td>
+<td>Dinar i tarda lliure amb la família</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Dl 14 des</td>
+<td>10:00</td>
+<td>Assistència presencial a l'executiva nacional de Junts</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Dl 14 des</td>
+<td>Migdia</td>
+<td>Possible dinar amb l'executiva</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Dl 14 des</td>
+<td>Tarda</td>
+<td>Tornada a Sant Julià i preparació de la conferència</td>
+<td>Conferència</td>
+</tr>
+<tr>
+<td>Dt 15 des</td>
+<td>Matí</td>
+<td>Recepció oficial a l'Ajuntament de Girona amb l'alcalde i els regidors</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Dt 15 des</td>
+<td>Matí</td>
+<td>Visita al bisbe de Girona</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Dt 15 des</td>
+<td>Tarda</td>
+<td>Preparació de la conferència</td>
+<td>Conferència</td>
+</tr>
+<tr>
+<td>Dc 16 des</td>
+<td>8:15</td>
+<td>Arribada al Parlament i reunió amb el grup parlamentari</td>
+<td>Relacions institucionals</td>
+</tr>
+<tr>
+<td>Dc 16 des</td>
+<td>8:55</td>
+<td>Entrada a l'hemicicle; el Ple comença a les 9:00</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Dc 16 des</td>
+<td>Inici del Ple</td>
+<td>Qüestió d'ordre del president del grup; el president 130 anuncia que deixa l'escó i fa el missatge polític</td>
+<td>Comunicació</td>
+</tr>
+<tr>
+<td>Dc 16 des</td>
+<td>Després</td>
+<td>Sortida de l'hemicicle amb els convidats, trobada al saló dels Passos Perduts i acompanyament fins a la sortida</td>
+<td>Protocol</td>
+</tr>
+<tr>
+<td>Dc 16 des</td>
+<td>Tarda</td>
+<td>Tornada a Sant Julià i preparació de la conferència</td>
+<td>Conferència</td>
+</tr>
+<tr>
+<td>Dj 17 des</td>
+<td>Per concretar</td>
+<td>Conferència política: obertura de Milan Kučan (10 minuts), full de ruta i cloenda amb Els Segadors</td>
+<td>Conferència</td>
+</tr>
+<tr>
+<td>Dv 18 des</td>
+<td>—</td>
+<td>Inici de la normalitat: agenda d'actes, itinerari pel país, política d'entrevistes</td>
+<td>Relacions institucionals</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-seguretat">Seguretat</h2>
+<p>La seguretat és l'únic àmbit amb poder de veto sobre el programa: si una activitat no té garanties, es modifica o s'anul·la. La decisió sobre l'escorta ha d'estar tancada abans del 20 de novembre, perquè el pla alternatiu necessita temps de contractació.</p>
+<h3>Principis</h3>
+<ul>
+<li>Una sola persona responsable de seguretat, amb accés directe a la coordinació general.</li>
+<li>Els horaris i trajectes exactes només els coneixen les posicions que els necessiten.</li>
+<li>Cada acte té una ruta d'entrada, una de sortida i una alternativa.</li>
+<li>Els actes a l'aire lliure (exterior del Parlament, Amer, passejada per Girona) tenen un perímetre i un punt de retirada definits.</li>
+</ul>
+<h3>Escenaris de l'escorta</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Escenari</th>
+<th>Descripció</th>
+<th>Resposta</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1. Col·laboració plena</td>
+<td>Interior facilita l'escorta amb agents de confiança i coordina l'operativa, inclosos els 11 ponts</td>
+<td>Pla com està</td>
+</tr>
+<tr>
+<td>2. Col·laboració parcial</td>
+<td>Escorta assignada, però sense garanties sobre la composició o sense operativa per als actes públics</td>
+<td>Reforç amb mitjans propis als actes públics i reducció de l'exposició</td>
+</tr>
+<tr>
+<td>3. Negativa</td>
+<td>Interior no facilita l'escorta o no ofereix garanties</td>
+<td>Pla alternatiu: seguretat privada autoritzada, programa reduït als actes en espais tancats, reclamació formal per via institucional i pública</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>Data límit:</strong> 20 de novembre per saber en quin escenari som. Si no hi ha resposta, s'activa el preparatiu de l'escenari 3 sense esperar.</p>
+<h2 id="s-pla-de-comunicaci-i-premsa">Pla de comunicació i premsa</h2>
+<p>Cada dia de la setmana del retorn té una sola imatge i un sol missatge principal. Les entrevistes s'ordenen de manera que la primera sigui nacional, la segona estatal i la tercera internacional.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Dia</th>
+<th>Imatge principal</th>
+<th>Missatge</th>
+<th>Portaveu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dia 0</td>
+<td>President amb Comín i Puig a la Casa de la República</td>
+<td>S'acaba l'exili</td>
+<td>President 130; Turull des de Barcelona</td>
+</tr>
+<tr>
+<td>Primer dia</td>
+<td>Comunicat de l'oficina amb el calendari</td>
+<td>El retorn té data i programa</td>
+<td>Oficina del president 130; Turull</td>
+</tr>
+<tr>
+<td>10 des</td>
+<td>Baixada de les banderes a Waterloo</td>
+<td>Acomiadament de l'exili</td>
+<td>President 130</td>
+</tr>
+<tr>
+<td>12 des</td>
+<td>Arribada al Parlament i sala Companys</td>
+<td>Retorn a la institució</td>
+<td>President 130</td>
+</tr>
+<tr>
+<td>12 des (tarda)</td>
+<td>Amer</td>
+<td>Retorn a casa</td>
+<td>Sense declaracions</td>
+</tr>
+<tr>
+<td>14 des</td>
+<td>Executiva de Junts</td>
+<td>Retorn al partit</td>
+<td>Portaveu del partit</td>
+</tr>
+<tr>
+<td>15 des</td>
+<td>Ajuntament de Girona</td>
+<td>Retorn a la ciutat</td>
+<td>President 130</td>
+</tr>
+<tr>
+<td>16 des</td>
+<td>Intervenció a l'hemicicle</td>
+<td>Deixa l'escó; missatge polític</td>
+<td>President 130</td>
+</tr>
+<tr>
+<td>17 des</td>
+<td>Conferència amb Kučan</td>
+<td>Full de ruta per a l'independentisme</td>
+<td>President 130</td>
+</tr>
+</tbody>
+</table></div>
+<h3>Entrevistes</h3>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Ordre</th>
+<th>Àmbit</th>
+<th>Finestra proposada</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Nacional</td>
+<td>Entre el 13 i el 15 de desembre</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Estatal</td>
+<td>Després del Ple del 16</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Internacional</td>
+<td>Després de la conferència del 17</td>
+</tr>
+</tbody>
+</table></div>
+<p>A partir del 18 de desembre s'aplica la política d'entrevistes que es defineixi per a la fase de normalitat.</p>
+<h3>Canals</h3>
+<ul>
+<li>Web oficial d'expresident: inscripcions a la conferència des del Primer dia.</li>
+<li>Xarxes del partit i d'expresident: enllaços a les inscripcions i continguts propis de cada dia.</li>
+<li>Autocar de premsa acreditada des de Perpinyà el 12 de desembre.</li>
+</ul>
+<h2 id="s-registre-de-riscos">Registre de riscos</h2>
+<p>Els dos riscos més alts són el retard judicial i l'escorta; tots dos tenen una data límit de decisió.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Risc</th>
+<th>Probabilitat</th>
+<th>Impacte</th>
+<th>Mitigació</th>
+<th>Responsable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>La documentació del TS arriba tard</td>
+<td>Mitjana</td>
+<td>Molt alt</td>
+<td>Escenaris A, B i C; reserves amb cancel·lació flexible</td>
+<td>Coordinador/a general</td>
+</tr>
+<tr>
+<td>Interior no facilita l'escorta o no dona garanties</td>
+<td>Mitjana</td>
+<td>Molt alt</td>
+<td>Escenaris d'escorta i data límit del 20 de novembre</td>
+<td>Responsable de seguretat</td>
+</tr>
+<tr>
+<td>Kučan no pot venir o cancel·la</td>
+<td>Baixa</td>
+<td>Alt</td>
+<td>Confirmació abans del 15 d'octubre, intervenció gravada de reserva, ponent alternatiu</td>
+<td>Responsable de relacions internacionals</td>
+</tr>
+<tr>
+<td>Filtració de l'agenda o dels trajectes</td>
+<td>Mitjana</td>
+<td>Alt</td>
+<td>Informació compartimentada, horaris públics només quan convingui</td>
+<td>Coordinador/a general</td>
+</tr>
+<tr>
+<td>Protestes o incidents als actes a l'aire lliure</td>
+<td>Mitjana</td>
+<td>Alt</td>
+<td>Perímetres, rutes alternatives, acte de l'exterior del Parlament escurçable</td>
+<td>Responsable de seguretat</td>
+</tr>
+<tr>
+<td>Mal temps o trànsit a l'autopista el 12 de desembre</td>
+<td>Mitjana</td>
+<td>Mitjà</td>
+<td>Marge a l'horari d'arribada, ruta alternativa, previsió meteorològica el 10</td>
+<td>Responsable de comitiva</td>
+</tr>
+<tr>
+<td>Desacord amb la presidència del Parlament sobre l'acte o el Ple</td>
+<td>Baixa</td>
+<td>Alt</td>
+<td>Acord tancat abans del 20 de novembre</td>
+<td>Enllaç amb el Parlament</td>
+</tr>
+<tr>
+<td>Espai de la conferència sense capacitat suficient</td>
+<td>Mitjana</td>
+<td>Mitjà</td>
+<td>Aforament segons inscripcions, pantalla exterior o sala annexa</td>
+<td>Responsable de la conferència</td>
+</tr>
+<tr>
+<td>Saturació de l'oficina d'expresident</td>
+<td>Alta</td>
+<td>Mitjà</td>
+<td>Reforç extern des de l'inici de la fase 0</td>
+<td>Coordinador/a general</td>
+</tr>
+<tr>
+<td>Sobrecost o manca de finançament</td>
+<td>Mitjana</td>
+<td>Mitjà</td>
+<td>Pressupost aprovat abans del 15 d'octubre i control setmanal</td>
+<td>Responsable d'administració</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-decisions-pendents">Decisions pendents</h2>
+<p>Hi ha nou decisions obertes al document original. Les dates límit són propostes perquè cap decisió bloquegi una tasca que en depèn.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Decisió</th>
+<th>Qui decideix</th>
+<th>Data límit</th>
+<th>En depèn</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Designació de les posicions crítiques</td>
+<td>President 130 + coordinador/a general</td>
+<td>30 set</td>
+<td>Tot el projecte</td>
+</tr>
+<tr>
+<td>Pressupost global i fonts de finançament</td>
+<td>Coordinació general</td>
+<td>15 oct</td>
+<td>Contractacions</td>
+</tr>
+<tr>
+<td>Espai de la conferència del 17</td>
+<td>Responsable de la conferència</td>
+<td>15 oct</td>
+<td>Inscripcions, convidats internacionals</td>
+</tr>
+<tr>
+<td>Hi ha trobada d'expresidents? (sortida el 10 o l'11)</td>
+<td>President 130</td>
+<td>31 oct</td>
+<td>Allotjament, comitiva</td>
+</tr>
+<tr>
+<td>Espai de pernoctació a la Catalunya Nord</td>
+<td>Responsable d'allotjament</td>
+<td>31 oct</td>
+<td>Comitiva, seguretat</td>
+</tr>
+<tr>
+<td>Dates dels actes de benvinguda a Comín i Puig i del primer ple presencial de Puig</td>
+<td>Coordinació general + enllaç amb el Parlament</td>
+<td>15 nov</td>
+<td>Pla de comunicació</td>
+</tr>
+<tr>
+<td>Escenari de l'escorta (1, 2 o 3)</td>
+<td>Responsable de seguretat</td>
+<td>20 nov</td>
+<td>Tota l'operativa del 12 al 17</td>
+</tr>
+<tr>
+<td>Acord amb el president Rull sobre l'acte del 12 i el Ple del 16</td>
+<td>Enllaç amb el Parlament</td>
+<td>20 nov</td>
+<td>Escaletes, invitacions</td>
+</tr>
+<tr>
+<td>Mitjans de les tres primeres entrevistes</td>
+<td>Cap de comunicació + president 130</td>
+<td>30 nov</td>
+<td>Pla de comunicació</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="s-recursos-i-pressupost">Recursos i pressupost</h2>
+<p>El pressupost s'estructura en set partides; els imports queden per omplir un cop es tinguin els pressupostos dels proveïdors.</p>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Partida</th>
+<th>Inclou</th>
+<th>Àrea</th>
+<th>Import (€)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Desplaçaments</td>
+<td>Vehicles de la comitiva, lloguer de vehicles i motos, combustible, peatges, autocar de premsa</td>
+<td>Logística i seguretat</td>
+<td></td>
+</tr>
+<tr>
+<td>Allotjament</td>
+<td>Pernoctació a la Catalunya Nord, allotjament de convidats internacionals</td>
+<td>Logística i seguretat</td>
+<td></td>
+</tr>
+<tr>
+<td>Seguretat</td>
+<td>Reforç propi i, si cal, seguretat privada (escenaris 2 i 3)</td>
+<td>Logística i seguretat</td>
+<td></td>
+</tr>
+<tr>
+<td>Conferència</td>
+<td>Lloguer de l'espai, producció, audiovisuals, traducció</td>
+<td>Conferència</td>
+<td></td>
+</tr>
+<tr>
+<td>Convidats internacionals</td>
+<td>Viatges i atencions a Kučan i altres convidats</td>
+<td>Conferència</td>
+<td></td>
+</tr>
+<tr>
+<td>Actes i protocol</td>
+<td>Producció dels actes del 12, dinar amb l'executiva, invitacions</td>
+<td>Protocol</td>
+<td></td>
+</tr>
+<tr>
+<td>Comunicació</td>
+<td>Producció audiovisual, retransmissió, materials gràfics</td>
+<td>Comunicació</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div></article></div>
+  <div id="pane-tauler">
+
+  <div class="scen" id="scen" role="group" aria-label="Data de retorn"><span class="scen-lab">Data<br>de retorn</span></div>
+  <p class="scen-note" id="scen-note"></p>
+
+  <section class="summary" aria-label="Resum">
+    <div class="tile">
+      <span class="tile-label">Avenç</span>
+      <div class="progress" id="prog" role="img" aria-label="Distribució de tasques per estat"></div>
+      <div class="legend" id="prog-legend"></div>
+    </div>
+    <div class="tile" id="t-late">
+      <span class="tile-label">Vençudes</span>
+      <span class="tile-val" id="late-n">0</span>
+      <span class="tile-sub" id="late-sub"></span>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Propers 14 dies</span>
+      <span class="tile-val" id="soon-n">0</span>
+      <span class="tile-sub" id="soon-sub"></span>
+    </div>
+    <div class="tile" id="t-risk">
+      <span class="tile-label">En risc</span>
+      <span class="tile-val" id="risk-n">0</span>
+      <span class="tile-sub" id="risk-sub"></span>
+    </div>
+    <div class="tile">
+      <span class="tile-label">Propera fita</span>
+      <span class="tile-val" id="mile-d" style="font-size:19px">–</span>
+      <span class="tile-sub" id="mile-t"></span>
+    </div>
+  </section>
+
+  <div class="toolbar" role="toolbar" aria-label="Vista i filtres">
+    <div class="seg" role="group" aria-label="Vista">
+      <button type="button" data-view="gantt" aria-pressed="true">Calendari</button>
+      <button type="button" data-view="kanban" aria-pressed="false">Per estat</button>
+      <button type="button" data-view="programa" aria-pressed="false">Programa</button>
+      <button type="button" data-view="escenaris" aria-pressed="false">Escenaris</button>
+    </div>
+    <div id="filters" style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px">
+      <div class="chips" id="phase-chips" role="group" aria-label="Fase"></div>
+      <button type="button" class="chip crit" id="f-crit" aria-pressed="false">Camí crític</button>
+      <button type="button" class="chip" id="f-open" aria-pressed="false">Amaga les fetes</button>
+      <div class="field"><label for="f-area">Àrea</label><select id="f-area"><option value="">Totes</option></select></div>
+      <div class="field"><label for="f-pos">Posició</label><select id="f-pos"><option value="">Totes</option></select></div>
+      <div class="field"><label for="f-q">Cerca</label><input id="f-q" type="search" placeholder="Cerca una tasca"></div>
+    </div>
+    <span class="save local" id="save" aria-live="polite"><i></i><span id="save-t">Desat en aquest navegador</span></span><span class="io"><button type="button" id="exp">Exporta estats</button><button type="button" id="imp">Importa</button><input type="file" id="impf" accept="application/json" hidden></span>
+  </div>
+
+  <form class="authbar" id="auth" hidden>
+    <p id="auth-msg">Aquest tauler comparteix els estats amb tot l'equip. Identifica't per veure'ls i actualitzar-los.</p>
+    <div class="f"><label for="auth-nom">El teu nom</label><input id="auth-nom" autocomplete="nickname" required></div>
+    <div class="f"><label for="auth-clau">Contrasenya de l'equip</label><input id="auth-clau" type="password" autocomplete="current-password" required></div>
+    <button type="submit">Entra</button>
+  </form>
+
+  <main id="view"></main>
+
+  <p class="foot">Les dates límit es recalculen a partir de la data de retorn escollida: el pla de referència reparteix 80 dies de feina i, en un escenari més curt, els mateixos terminis es comprimeixen proporcionalment. Una tasca surt <b>en risc</b> quan la compressió la deixa per sota del marge mínim que necessita (per exemple, tres setmanes per confirmar i portar Milan Kučan). Les tasques del Dia 0 i del Primer dia depenen de la resolució judicial: es mostren com una finestra oberta fins al límit de la documentació del TS.</p>
+</div>
+</div>
+
+<dialog id="dlg" aria-labelledby="dlg-title"><div class="dlg" id="dlg-body"></div></dialog>
+
+<script>window.RETORNADA_SUPA={url:"https://vobfljhoglpxljxhxtkd.supabase.co/functions/v1/tauler"};</script><script>// Dades del projecte: tasques amb marge (dies abans del retorn), calendari i escenaris.
+window.RETORNADA_DATA = {
+SCENARIOS: [
+ {id:"R1", D:"2026-10-17", verdict:"Només amb programa reduït",
+  note:"Vint-i-quatre dies de preparació. Kučan, l'espai de la conferència i la resposta d'Interior sobre l'escorta no hi caben: la conferència s'hauria de desacoblar del retorn. El 23 d'octubre comencen les Fires de Girona."},
+ {id:"R2", D:"2026-10-31", verdict:"Difícil, conferència al límit",
+  note:"Dos dies després del novè aniversari de la sortida a l'exili i en plenes Fires de Girona i Sant Narcís: el marc simbòlic més potent i el més exigent en seguretat. La visita a l'Ajuntament cau dimarts 3 i el Ple dimecres 4, que és Sant Carles, l'onomàstica del president."},
+ {id:"R3", D:"2026-11-14", verdict:"Viable amb pressa",
+  note:"El calendari es compleix sense forats. El 20 de novembre, primer dia de normalitat, és l'aniversari de la mort de Franco: convé no programar-hi actes públics i començar l'agenda el dissabte 21."},
+ {id:"R4", D:"2026-11-28", verdict:"Viable",
+  note:"L'alternativa més sòlida si decau el 12 de desembre. Vuit setmanes de preparació i Ple el 2 de desembre. La normalitat arrenca el 4, inici del pont de la Puríssima."},
+ {id:"R5", D:"2026-12-12", verdict:"Pla de referència",
+  note:"El pla complet descrit al projecte executiu, amb onze setmanes de preparació."}
+],
+PLE: ["2026-10-20","2026-10-21","2026-10-22","2026-11-03","2026-11-04","2026-11-05","2026-11-17","2026-11-18","2026-11-19","2026-12-01","2026-12-02","2026-12-03","2026-12-15","2026-12-16","2026-12-17"],
+CAL: {
+ "2026-10-01":["IX aniversari del referèndum"],
+ "2026-10-05":["Sentència del TC"], "2026-10-06":["Sentència del TC"],
+ "2026-10-12":["Festa nacional espanyola"],
+ "2026-10-13":["Ple del Congrés"], "2026-10-14":["Ple del Congrés"], "2026-10-15":["Ple del Congrés"],
+ "2026-10-20":["Ple del Parlament","Ple del Congrés"], "2026-10-21":["Ple del Parlament","Ple del Congrés"], "2026-10-22":["Ple del Parlament","Ple del Congrés"],
+ "2026-10-23":["Comencen les Fires de Girona"],
+ "2026-10-25":["Barça – Madrid"],
+ "2026-10-27":["9 anys de la DUI","Ple del Congrés"], "2026-10-28":["Ple del Congrés"],
+ "2026-10-29":["Sant Narcís","9 anys de la sortida a l'exili","Ple del Congrés"],
+ "2026-11-01":["Tots Sants"],
+ "2026-11-03":["Ple del Parlament","Barça – Aston Villa"],
+ "2026-11-04":["Ple del Parlament","Sant Carles"],
+ "2026-11-05":["Ple del Parlament","Aniversari de la Maria"],
+ "2026-11-06":["Aniversari de la mort del pare"],
+ "2026-11-07":["Diada de la Catalunya Nord"],
+ "2026-11-08":["Girona – Almeria"],
+ "2026-11-10":["Ple del Congrés"], "2026-11-11":["Ple del Congrés"], "2026-11-12":["Ple del Congrés"],
+ "2026-11-17":["Ple del Parlament"], "2026-11-18":["Ple del Parlament"], "2026-11-19":["Ple del Parlament"],
+ "2026-11-20":["Aniversari de la mort de Franco"],
+ "2026-11-22":["Girona – Eibar"],
+ "2026-12-01":["Ple del Parlament"], "2026-12-02":["Ple del Parlament"], "2026-12-03":["Ple del Parlament"],
+ "2026-12-04":["Pont de la Puríssima"], "2026-12-05":["Pont de la Puríssima"], "2026-12-06":["Pont de la Puríssima","Girona – Valladolid"],
+ "2026-12-07":["Pont de la Puríssima"], "2026-12-08":["Pont de la Puríssima","Barça – Manchester City"],
+ "2026-12-15":["Ple del Parlament"], "2026-12-16":["Ple del Parlament"], "2026-12-17":["Ple del Parlament"],
+ "2026-12-22":["Rifa de Nadal"], "2026-12-24":["Nit de Nadal"], "2026-12-25":["Nadal"], "2026-12-26":["Sant Esteve"],
+ "2026-12-29":["Aniversari del president"], "2026-12-31":["Nit de Cap d'Any"]
+},
+ALERTS: {
+ "2026-11-01":"Tots Sants: la passejada per Girona cau en diada.",
+ "2026-11-20":"Aniversari de la mort de Franco: evitar-hi actes públics.",
+ "2026-12-04":"Inici del pont de la Puríssima: menys ressò mediàtic.",
+ "2026-11-04":"Sant Carles, onomàstica del president."
+},
+// [id, títol, fase, posició, marge en dies abans de D, marge mínim indispensable, dependències]
+TASKS: [
+ [1,"Designar el/la coordinador/a general","F0","President 130",78,0,[]],
+ [2,"Cobrir les 21 posicions i publicar el directori de contactes","F0","Coordinador/a general",73,10,[1]],
+ [3,"Crear el canal intern segur i el registre d'incidències","F0","Secretaria tècnica",73,0,[2]],
+ [4,"Aprovar els escenaris judicials A, B i C","F0","Coordinador/a general",66,0,[2]],
+ [5,"Aprovar el pressupost i les fonts de finançament","F0","Responsable d'administració i pressupost",58,14,[2]],
+ [6,"Invitar Milan Kučan i confirmar-ne la presència","F0","Responsable de relacions internacionals",58,21,[]],
+ [7,"Reservar l'espai de la conferència amb canvi de data flexible","F0","Responsable de la conferència",58,21,[5]],
+ [8,"Reforçar l'oficina d'expresident per a la conferència","F0","Coordinador/a general",58,0,[2]],
+ [9,"Sol·licitar formalment l'escorta a Interior","F0","Responsable de seguretat",58,21,[2]],
+ [10,"Decidir si es fa la trobada d'expresidents","F0","President 130",42,0,[]],
+ [11,"Contractar l'espai de pernoctació a la Catalunya Nord","F0","Responsable d'allotjament i espais",42,10,[10]],
+ [12,"Primera reunió amb la presidència del Parlament","F0","Enllaç amb el Parlament",42,14,[2]],
+ [13,"Redactar el comunicat del Primer dia, a punt per publicar","F0","Responsable de continguts",42,0,[4]],
+ [14,"Preparar el formulari d'inscripcions a la web d'expresident","F0","Responsable d'audiovisual i xarxes",42,12,[7]],
+ [15,"Llista de convidats internacionals i gestió dels viatges","F0","Responsable de relacions internacionals",29,14,[6]],
+ [16,"Organitzar l'acte d'Amer amb Mingo Berrio, Lluís Ferrés i M. Rosa Vila","F0","Enllaç amb el territori",29,7,[]],
+ [17,"Invitar els expresidents i fixar el lloc de la trobada","F0","Cap de protocol",27,7,[10,11]],
+ [18,"Fixar les dates dels actes de benvinguda a Comín i Puig i del primer ple presencial de Puig","F0","Enllaç amb el Parlament",27,0,[12]],
+ [19,"Decidir l'escenari d'escorta (1, 2 o 3)","F0","Responsable de seguretat",22,10,[9]],
+ [20,"Tancar l'acord amb el president Rull","F0","Enllaç amb el Parlament",22,10,[12]],
+ [21,"Acordar amb l'ANC les pancartes als 11 ponts de l'autopista","F0","Enllaç amb entitats",22,7,[]],
+ [22,"Organitzar la visita a l'Ajuntament de Girona i la trobada amb el bisbe Octavi","F0","Enllaç amb el territori",22,7,[]],
+ [23,"Definir vehicles, conductors, motos d'avançada i lloguers","F0","Responsable de comitiva i desplaçaments",22,7,[19]],
+ [24,"Escaletes en primera versió (retorn, Ple i conferència)","F0","Responsable de producció d'actes",22,7,[20]],
+ [25,"Declaracions a la Casa de la República amb Comín i Puig","F1","Cap de comunicació",null,0,[]],
+ [26,"Coordinar les declaracions de Turull des de Barcelona","F1","Enllaç amb el partit",null,0,[]],
+ [27,"Activar formalment l'equip i comunicar l'organigrama","F1","Coordinador/a general",null,0,[2]],
+ [28,"Publicar el comunicat amb el calendari i l'agenda del retorn","F1","Responsable de continguts",null,0,[13]],
+ [29,"Obrir les inscripcions i difondre els enllaços per les xarxes del partit","F1","Responsable d'audiovisual i xarxes",null,0,[14]],
+ [30,"Preparar el pla alternatiu de seguretat (escenaris 2 o 3)","F2","Responsable de seguretat",15,10,[19]],
+ [31,"Pla de comunicació: missatges per dia i mitjans de les tres primeres entrevistes","F2","Cap de comunicació",12,5,[]],
+ [32,"Reunió general de tots els equips","F2","Coordinador/a general",12,7,[24]],
+ [33,"Invitacions de l'acte del retorn i dels convidats al Ple","F2","Responsable de convidats",11,7,[20]],
+ [34,"Acreditacions de premsa i autocar","F2","Responsable de premsa",8,4,[31]],
+ [35,"Escaletes definitives validades","F2","Responsable de producció d'actes",8,5,[32]],
+ [36,"Go / no-go final","F2","President 130 + coordinador/a general",5,4,[19,35]],
+ [37,"Recorregut previ de rutes i espais","F2","Responsable de comitiva i desplaçaments",4,3,[23]],
+ [38,"Materials audiovisuals de la conferència","F2","Responsable d'audiovisual i xarxes",3,3,[7]],
+ [39,"Reunió del grup parlamentari a Waterloo per acomiadar l'exili","F2","Enllaç amb el Parlament",3,2,[]],
+ [40,"Discursos del retorn, del Ple i de la conferència","F2","Responsable de continguts",3,2,[]],
+ [41,"Agenda d'actes com a convidat oficial (teatre, futbol, fires)","F4","Responsable d'agenda i territori",1,0,[]],
+ [42,"Política d'entrevistes a partir del primer dia de normalitat","F4","Cap de comunicació",-5,0,[31]],
+ [43,"Itinerari pel país amb el partit, amb prioritat a les municipals","F4","Responsable d'agenda i territori",-6,0,[]],
+ [44,"Prioritats, dates i itinerari de la darrera fase","F5","Coordinador/a general",-34,0,[]],
+ [45,"Pla de seguretat de la darrera fase","F5","Responsable de seguretat",-34,0,[44]]
+]};
+</script>
+<script>
+(function(){
+const D0 = window.RETORNADA_DATA;
+const SCEN = D0.SCENARIOS, PLE = new Set(D0.PLE), CAL = D0.CAL, ALERTS = D0.ALERTS;
+const TASKS = D0.TASKS.map(([id,title,phase,pos,lead,min,deps])=>({id,title,phase,pos,lead,min,deps}));
+const BASE = 80;
+const PHASES = {
+  F0:{name:"F0 · Preparació",short:"Preparació",range:"fins al Dia 0"},
+  F1:{name:"F1 · Activació",short:"Activació",range:"Dia 0 i Primer dia"},
+  F2:{name:"F2 · Preparació final",short:"Preparació final",range:"darreres setmanes"},
+  F4:{name:"F4 · Normalitat",short:"Normalitat",range:"després del retorn"},
+  F5:{name:"F5 · Darrera fase",short:"Darrera fase",range:"2027"}
+};
+const AREA_OF = {
+  "President 130":"Coordinació","Coordinador/a general":"Coordinació","Secretaria tècnica":"Coordinació","President 130 + coordinador/a general":"Coordinació",
+  "Responsable de seguretat":"Logística i seguretat","Responsable de comitiva i desplaçaments":"Logística i seguretat","Responsable d'allotjament i espais":"Logística i seguretat",
+  "Cap de comunicació":"Comunicació","Responsable de premsa":"Comunicació","Responsable de continguts":"Comunicació","Responsable d'audiovisual i xarxes":"Comunicació",
+  "Cap de protocol":"Protocol i actes","Responsable de producció d'actes":"Protocol i actes","Responsable de convidats":"Protocol i actes",
+  "Enllaç amb el Parlament":"Relacions institucionals","Enllaç amb el partit":"Relacions institucionals","Enllaç amb el territori":"Relacions institucionals","Enllaç amb entitats":"Relacions institucionals","Responsable d'agenda i territori":"Relacions institucionals",
+  "Responsable de la conferència":"Conferència","Responsable de relacions internacionals":"Conferència",
+  "Responsable d'administració i pressupost":"Administració"
+};
+const STATUSES = [
+  {k:"pendent",label:"Pendent",bar:"st-pendent",pill:"p-pendent",c:"--st-pendent"},
+  {k:"curs",label:"En curs",bar:"st-curs",pill:"p-curs",c:"--st-curs"},
+  {k:"bloc",label:"Bloquejada",bar:"st-bloc",pill:"p-bloc",c:"--st-bloc"},
+  {k:"feta",label:"Feta",bar:"st-feta",pill:"p-feta",c:"--st-feta"}
+];
+const ST = Object.fromEntries(STATUSES.map(s=>[s.k,s]));
+const MONTHS = ["gener","febrer","març","abril","maig","juny","juliol","agost","setembre","octubre","novembre","desembre"];
+const MSHORT = ["gen","feb","març","abr","maig","juny","jul","ag","set","oct","nov","des"];
+const WD = ["diumenge","dilluns","dimarts","dimecres","dijous","divendres","dissabte"];
+const WDS = ["dg","dl","dt","dc","dj","dv","ds"];
+
+const byId = Object.fromEntries(TASKS.map(t=>[t.id,t]));
+TASKS.forEach(t=>t.area = AREA_OF[t.pos] || "Altres");
+const parse = s => { const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d); };
+const fmtISO = d => d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const DAY = 86400000;
+const diff = (a,b) => Math.round((parse(b)-parse(a))/DAY);
+const addDays = (s,n) => { const d=parse(s); d.setDate(d.getDate()+n); return fmtISO(d); };
+const maxD = (a,b) => a>b ? a : b;
+const fmtShort = s => parse(s).getDate()+" "+MSHORT[parse(s).getMonth()];
+const fmtLong = s => { const d=parse(s); return WD[d.getDay()]+" "+d.getDate()+" de "+MONTHS[d.getMonth()]+(d.getFullYear()!==2026?" de "+d.getFullYear():""); };
+const today = fmtISO(new Date());
+const esc = s => String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+
+const CRIT = new Set();
+(function walk(id){ if(CRIT.has(id)) return; CRIT.add(id); byId[id].deps.forEach(walk); })(36);
+const blocks = id => TASKS.filter(t=>t.deps.includes(id));
+
+// ---------- Calendari per escenari ----------
+function plan(D){
+  const avail = Math.max(diff(today,D),0);
+  const k = Math.min(1, avail/BASE);
+  const due = {}, risk = {};
+  TASKS.forEach(t=>{
+    if(t.lead===null){ due[t.id]=null; return; }
+    let d = t.lead>=0 ? addDays(D, -Math.round(t.lead*k)) : addDays(D, -t.lead);
+    if(t.lead>0 && d < addDays(today,1)) d = addDays(today,1);
+    t.deps.forEach(x=>{ if(due[x] && due[x] > d) d = due[x]; });
+    if(d > D && t.lead>0) d = D;
+    due[t.id] = d;
+    risk[t.id] = t.min>0 && diff(d,D) < t.min;
+  });
+  const prog = programa(D);
+  return {D, avail, k, due, risk, prog,
+    miles:[
+      {d:addDays(D,-27), t:"Límit de l'escenari A"},
+      {d:addDays(D,-12), t:"Reunió general de tots els equips", short:"Reunió"},
+      {d:addDays(D,-8),  t:"Límit de la documentació del TS", short:"TS"},
+      {d:addDays(D,-5),  t:"Go / no-go final", short:"Go"},
+      {d:addDays(D,-2),  t:"Sortida de Waterloo"},
+      {d:D,              t:"Retorn efectiu", short:"Retorn"},
+      {d:prog.conf,      t:"Conferència política", short:"Conf."},
+      {d:prog.fi,        t:"Inici de la normalitat"}
+    ]};
+}
+function programa(D){
+  const day = n => addDays(D,n);
+  let ple = PLE.has(day(4)) ? day(4) : null;
+  if(!ple) for(let n=3;n<=6;n++){ if(PLE.has(day(n))){ ple = day(n); break; } }
+  let conf = day(5); if(conf===ple) conf = day(6);
+  const aj = [3,4,5,6].map(day).find(d=>d!==ple && d!==conf) || day(3);
+  const fi = conf >= day(6) ? addDays(conf,1) : day(6);
+  const rows = [];
+  const push = (d,titol,detall) => rows.push({d,titol,detall});
+  push(D,"Retorn efectiu","Comitiva des de Perpinyà, arribada al Parlament, compareixença i acte; a la tarda, Amer");
+  push(day(1),"Girona i família","Passejada matinal per Girona; tarda lliure");
+  push(day(2),"Retorn al partit","Executiva nacional de Junts i possible dinar amb l'executiva");
+  for(let n=3;n<=Math.max(6,diff(D,fi));n++){
+    const d = day(n);
+    if(d===ple) push(d,"Ple del Parlament","Reunió amb el grup, entrada a l'hemicicle, anunci que deixa l'escó i missatge polític");
+    else if(d===conf) push(d,"Conferència política","Obertura de Milan Kučan, full de ruta per a l'independentisme i cloenda amb Els Segadors");
+    else if(d===aj) push(d,"Retorn a l'Ajuntament de Girona","Recepció oficial amb l'alcalde i els regidors, i visita al bisbe");
+    else if(d===fi) push(d,"Inici de la normalitat","Agenda d'actes, itinerari pel país i política d'entrevistes");
+    else push(d,"Preparació de la conferència","Jornada de treball a Sant Julià de Ramis");
+  }
+  return {ple, conf, aj, fi, rows};
+}
+const PLANS = Object.fromEntries(SCEN.map(s=>[s.id, plan(s.D)]));
+const riskCount = id => Object.values(PLANS[id].risk).filter(Boolean).length;
+
+// ---------- Estat ----------
+const initial = (window.RETORNADA_STATE && window.RETORNADA_STATE.statuses) || {};
+const statuses = {};
+TASKS.forEach(t=>{ statuses[t.id] = ST[initial[t.id]] ? initial[t.id] : "pendent"; });
+let updated = (window.RETORNADA_STATE && window.RETORNADA_STATE.updated) || null;
+const LS_KEY = "retornada-tauler-v1", UI_KEY = "retornada-tauler-ui";
+try{ const loc = JSON.parse(localStorage.getItem(LS_KEY)||"null"); if(loc && loc.updated && (!updated || loc.updated > updated)){ Object.assign(statuses, loc.statuses||{}); updated = loc.updated; } }catch(e){}
+
+const ui = {view:"gantt",scen:"R5",phases:[],crit:false,open:false,area:"",pos:"",q:""};
+try{ Object.assign(ui, JSON.parse(localStorage.getItem(UI_KEY)||"{}")); }catch(e){}
+if(!PLANS[ui.scen]) ui.scen = "R5";
+const saveUI = () => { try{ localStorage.setItem(UI_KEY, JSON.stringify(ui)); }catch(e){} };
+const P = () => PLANS[ui.scen];
+const dueOf = t => P().due[t.id];
+const isRisk = t => !!P().risk[t.id];
+const isLate = t => dueOf(t) && dueOf(t) < today && statuses[t.id]!=="feta";
+
+// ---------- Desat ----------
+const SUPA = (window.RETORNADA_SUPA && window.RETORNADA_SUPA.url) ? window.RETORNADA_SUPA : null;
+const CLAU_K = "retornada-clau", NOM_K = "retornada-nom";
+let art = null, canPublish = false, pending = null, saving = false;
+let clau = null, nom = null, remotOk = false, cua = new Set(), poll = null, darrer = {};
+const saveEl = document.getElementById("save"), saveT = document.getElementById("save-t");
+const authEl = document.getElementById("auth"), authMsg = document.getElementById("auth-msg");
+function setSave(cls, txt){ saveEl.className = "save "+cls; saveT.textContent = txt; }
+function stateJS(){ return "window.RETORNADA_STATE = "+JSON.stringify({statuses,updated})+";\n"; }
+function localSave(){ try{ localStorage.setItem(LS_KEY, JSON.stringify({statuses,updated})); }catch(e){} }
+const fa = iso => { const m = Math.round((Date.now()-new Date(iso))/60000); return m<1?"ara mateix":(m<60?"fa "+m+" min":(m<1440?"fa "+Math.round(m/60)+" h":"fa "+Math.round(m/1440)+" dies")); };
+
+function scheduleSave(ids){
+  localSave();
+  if(SUPA){
+    if(!remotOk){ setSave("local","Desat en aquest navegador"); return; }
+    ids.forEach(i=>cua.add(i));
+    setSave("busy","Desant…");
+    clearTimeout(pending); pending = setTimeout(sincronitza, 800);
+    return;
+  }
+  if(!canPublish){ setSave("local","Desat en aquest navegador"); return; }
+  setSave("busy","Canvis per desar…");
+  clearTimeout(pending); pending = setTimeout(flush, 2500);
+}
+async function crida(cos){
+  const r = await fetch(SUPA.url, {method:"POST", headers:{"content-type":"application/json"}, body: JSON.stringify({clau, ...cos})});
+  const dades = await r.json().catch(()=>({}));
+  if(!r.ok) throw Object.assign(new Error(dades.error||"error"), {status:r.status, codi:dades.error});
+  return dades;
+}
+function aplica(estats){
+  (estats||[]).forEach(e=>{
+    if(!byId[e.tasca] || !ST[e.estat]) return;
+    if(cua.has(e.tasca)) return;
+    statuses[e.tasca] = e.estat;
+    darrer[e.tasca] = {qui:e.per_qui, quan:e.actualitzat};
+  });
+  localSave();
+}
+async function sincronitza(){
+  if(saving || !remotOk) return;
+  saving = true;
+  const enviar = [...cua].map(id=>({tasca:id, estat:statuses[id]}));
+  try{
+    const res = enviar.length ? await crida({accio:"desar", per_qui:nom, canvis:enviar}) : await crida({accio:"llegir"});
+    cua.clear();
+    aplica(res.estats);
+    setSave("", "Sincronitzat · "+new Date().toLocaleTimeString("ca-ES",{hour:"2-digit",minute:"2-digit"}));
+    render();
+  }catch(err){
+    if(err.status===401){ remotOk=false; setSave("err","Contrasenya no vàlida"); obreAuth("La contrasenya de l'equip ha canviat o no és correcta."); }
+    else setSave("err","Sense connexió amb el servidor; els canvis es mantenen aquí");
+  }finally{ saving = false; }
+}
+function obreAuth(missatge){
+  authEl.hidden = false;
+  authMsg.className = missatge ? "err" : "";
+  if(missatge) authMsg.textContent = missatge;
+  clearInterval(poll); poll = null;
+}
+async function entra(c, n){
+  clau = c; nom = n;
+  const res = await crida({accio:"llegir"});
+  remotOk = true;
+  try{ localStorage.setItem(CLAU_K, c); localStorage.setItem(NOM_K, n); }catch(e){}
+  authEl.hidden = true;
+  aplica(res.estats);
+  setSave("", "Sincronitzat · "+new Date().toLocaleTimeString("ca-ES",{hour:"2-digit",minute:"2-digit"}));
+  render();
+  clearInterval(poll);
+  poll = setInterval(()=>{ if(document.visibilityState==="visible" && !cua.size) sincronitza(); }, 15000);
+  document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible" && remotOk) sincronitza(); });
+}
+if(SUPA){
+  authEl.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const n = document.getElementById("auth-nom").value.trim(), c = document.getElementById("auth-clau").value;
+    if(!n || !c) return;
+    setSave("busy","Comprovant…");
+    try{ await entra(c, n); }
+    catch(err){
+      if(err.status===401){ setSave("err","Contrasenya no vàlida"); authMsg.className="err"; authMsg.textContent="La contrasenya no és correcta. Demana-la a la coordinació general."; }
+      else { setSave("err","Sense connexió amb el servidor"); authMsg.className="err"; authMsg.textContent="No s'ha pogut connectar amb el servidor. Torna-ho a provar d'aquí a una estona."; }
+    }
+  });
+  let c0 = null, n0 = null;
+  try{ c0 = localStorage.getItem(CLAU_K); n0 = localStorage.getItem(NOM_K); }catch(e){}
+  if(c0 && n0){
+    document.getElementById("auth-nom").value = n0;
+    setSave("busy","Connectant…");
+    entra(c0, n0).catch(err=>{
+      if(err.status===401) obreAuth("La contrasenya de l'equip ha canviat. Torna a entrar.");
+      else { setSave("err","Sense connexió; es treballa amb la còpia local"); }
+    });
+  }else{
+    obreAuth();
+    setSave("local","Encara no estàs connectat");
+  }
+}
+async function flush(){
+  if(saving){ pending = setTimeout(flush, 1500); return; }
+  saving = true; setSave("busy","Desant…");
+  try{
+    await art.publish({"state.js": {content: stateJS(), contentType:"text/javascript"}});
+    setSave("", "Desat · "+new Date().toLocaleTimeString("ca-ES",{hour:"2-digit",minute:"2-digit"}));
+  }catch(err){
+    const c = err && err.code;
+    if(["not_writer","not_granted","capability_disabled","consent_required","not_declared","capability_removed"].includes(c)){
+      canPublish = false; setSave("local","Desat només en aquest navegador");
+    }else if(c==="conflict"){ setSave("busy","Actualitzant a la darrera versió…"); }
+    else if(c==="rate_limited"){ setSave("busy","Massa canvis seguits; es desarà en uns segons"); pending = setTimeout(flush, 10000); }
+    else { setSave("err","No s'ha pogut desar; els canvis es mantenen en aquest navegador"); }
+  }finally{ saving = false; }
+}
+function setStatus(id, k){
+  if(statuses[id]===k) return;
+  statuses[id] = k; updated = new Date().toISOString();
+  if(SUPA && remotOk) darrer[id] = {qui:nom, quan:updated};
+  scheduleSave([id]); render();
+  if(dlg.open && dlg.dataset.id==String(id)) openTask(id);
+}
+if(!SUPA && window.claude && typeof window.claude.use === "function"){
+  window.claude.use("artifact").then(a=>{
+    if(a){ art = a; canPublish = true; setSave("", updated ? "Desat" : "Llest per desar"); }
+    else setSave("local","Desat en aquest navegador");
+  }).catch(()=>setSave("local","Desat en aquest navegador"));
+}else if(!SUPA){ setSave("local","Desat en aquest navegador"); }
+
+// ---------- Controls ----------
+const scenBar = document.getElementById("scen");
+scenBar.insertAdjacentHTML("beforeend", SCEN.map(s=>{
+  const p = PLANS[s.id];
+  return `<button type="button" data-scen="${s.id}" aria-pressed="false"><b>${fmtShort(s.D)}</b><span>${s.id} · ${p.avail} dies</span></button>`;
+}).join(""));
+const phaseChips = document.getElementById("phase-chips");
+phaseChips.innerHTML = Object.entries(PHASES).map(([k,p])=>`<button type="button" class="chip" data-ph="${k}" aria-pressed="false">${k} ${esc(p.short)}</button>`).join("");
+const areas = [...new Set(TASKS.map(t=>t.area))];
+const positions = [...new Set(TASKS.map(t=>t.pos))].sort((a,b)=>a.localeCompare(b,"ca"));
+const fArea = document.getElementById("f-area"), fPos = document.getElementById("f-pos"), fQ = document.getElementById("f-q");
+fArea.insertAdjacentHTML("beforeend", areas.map(a=>`<option>${esc(a)}</option>`).join(""));
+fPos.insertAdjacentHTML("beforeend", positions.map(a=>`<option>${esc(a)}</option>`).join(""));
+
+function syncControls(){
+  document.querySelectorAll("[data-view]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.view===ui.view));
+  scenBar.querySelectorAll("[data-scen]").forEach(b=>b.setAttribute("aria-pressed", b.dataset.scen===ui.scen));
+  phaseChips.querySelectorAll("[data-ph]").forEach(b=>b.setAttribute("aria-pressed", ui.phases.includes(b.dataset.ph)));
+  document.getElementById("f-crit").setAttribute("aria-pressed", ui.crit);
+  document.getElementById("f-open").setAttribute("aria-pressed", ui.open);
+  document.getElementById("filters").hidden = ui.view==="programa" || ui.view==="escenaris";
+  fArea.value = ui.area; fPos.value = ui.pos; fQ.value = ui.q;
+}
+function visible(){
+  const q = ui.q.trim().toLowerCase();
+  return TASKS.filter(t=>
+    (!ui.phases.length || ui.phases.includes(t.phase)) &&
+    (!ui.crit || CRIT.has(t.id)) &&
+    (!ui.open || statuses[t.id]!=="feta") &&
+    (!ui.area || t.area===ui.area) &&
+    (!ui.pos || t.pos===ui.pos) &&
+    (!q || t.title.toLowerCase().includes(q) || t.pos.toLowerCase().includes(q) || String(t.id)===q)
+  );
+}
+document.querySelector(".seg").onclick = e=>{ const b=e.target.closest("[data-view]"); if(!b) return; ui.view=b.dataset.view; saveUI(); syncControls(); render(); };
+scenBar.onclick = e=>{ const b=e.target.closest("[data-scen]"); if(!b) return; ui.scen=b.dataset.scen; saveUI(); syncControls(); render(); };
+phaseChips.onclick = e=>{ const b=e.target.closest("[data-ph]"); if(!b) return; const k=b.dataset.ph; ui.phases = ui.phases.includes(k)? ui.phases.filter(x=>x!==k) : [...ui.phases,k]; saveUI(); syncControls(); render(); };
+document.getElementById("f-crit").onclick = ()=>{ ui.crit=!ui.crit; saveUI(); syncControls(); render(); };
+document.getElementById("f-open").onclick = ()=>{ ui.open=!ui.open; saveUI(); syncControls(); render(); };
+fArea.onchange = ()=>{ ui.area=fArea.value; saveUI(); render(); };
+fPos.onchange = ()=>{ ui.pos=fPos.value; saveUI(); render(); };
+fQ.oninput = ()=>{ ui.q=fQ.value; saveUI(); render(); };
+
+// ---------- Resum ----------
+function renderSummary(){
+  const p = P(), sc = SCEN.find(s=>s.id===ui.scen);
+  const days = diff(today,p.D);
+  document.getElementById("cd-num").textContent = days>0 ? days : (days===0 ? "Avui" : "0");
+  document.getElementById("cd-txt").innerHTML = days>0 ? `dies per al retorn efectiu<br><b>${fmtLong(p.D)}</b>` : (days===0 ? `és el dia del retorn<br><b>${fmtLong(p.D)}</b>` : `el retorn ja s'ha produït<br><b>${fmtLong(p.D)}</b>`);
+  document.getElementById("scen-note").innerHTML = `<b>${sc.id} · ${esc(sc.verdict)}.</b> ${esc(sc.note)} ${p.k<1 ? "El calendari de preparació es comprimeix al "+Math.round(p.k*100)+" % del pla de referència." : ""}`;
+  const counts = Object.fromEntries(STATUSES.map(s=>[s.k,0]));
+  TASKS.forEach(t=>counts[statuses[t.id]]++);
+  const order = ["feta","curs","bloc","pendent"];
+  document.getElementById("prog").innerHTML = order.map(k=>`<span style="width:${counts[k]/TASKS.length*100}%;background:var(${ST[k].c})"></span>`).join("");
+  document.getElementById("prog-legend").innerHTML = order.map(k=>`<span><i style="background:var(${ST[k].c})"></i>${ST[k].label} ${counts[k]}</span>`).join("")+`<span style="margin-left:auto">${Math.round(counts.feta/TASKS.length*100)} % fet</span>`;
+  const late = TASKS.filter(isLate).sort((a,b)=>dueOf(a)<dueOf(b)?-1:1);
+  document.getElementById("late-n").textContent = late.length;
+  document.getElementById("t-late").classList.toggle("warn", late.length>0);
+  document.getElementById("late-sub").textContent = late.length ? `La més antiga: #${late[0].id}, ${fmtShort(dueOf(late[0]))}` : "Cap tasca fora de termini";
+  const in14 = addDays(today,14);
+  const soon = TASKS.filter(t=>dueOf(t) && dueOf(t)>=today && dueOf(t)<=in14 && statuses[t.id]!=="feta");
+  document.getElementById("soon-n").textContent = soon.length;
+  document.getElementById("soon-sub").textContent = soon.length ? "per tancar fins al "+fmtShort(in14) : "cap data límit fins al "+fmtShort(in14);
+  const risks = TASKS.filter(isRisk);
+  document.getElementById("risk-n").textContent = risks.length;
+  document.getElementById("t-risk").classList.toggle("warn", risks.length>0);
+  document.getElementById("risk-sub").textContent = risks.length ? "sense el marge mínim que necessiten" : "totes les tasques tenen marge";
+  const next = p.miles.filter(m=>m.d>=today).sort((a,b)=>a.d<b.d?-1:1)[0];
+  document.getElementById("mile-d").textContent = next ? fmtShort(next.d)+" · "+(diff(today,next.d)===0?"avui":diff(today,next.d)+" d") : "–";
+  document.getElementById("mile-t").textContent = next ? next.t : "Fase tancada";
+}
+
+// ---------- Calendari ----------
+function pill(t){ const s=ST[statuses[t.id]]; return `<button type="button" class="pill ${s.pill}" data-cycle="${t.id}" title="Canvia l'estat">${s.label}</button>`; }
+function renderGantt(list){
+  const p = P();
+  const T0 = addDays(today, -(parse(today).getDay()+6)%7 - 7), T1 = addDays(p.D, 45);
+  const days = diff(T0,T1);
+  const x = s => `calc(${diff(T0,s)} * var(--dw))`;
+  let months = "", weeks = "", grid = "";
+  for(let d=T0; d<T1; d=addDays(d,1)){
+    const dt = parse(d);
+    if(dt.getDate()===1 || d===T0) months += `<span class="g-month" style="left:${x(d)}">${MONTHS[dt.getMonth()]}${dt.getMonth()===0?" 2027":""}</span>`;
+    if(dt.getDay()===1){ weeks += `<span class="g-week" style="left:${x(d)}">${dt.getDate()}</span>`; grid += `<span class="wk" style="left:${x(d)}"></span>`; }
+  }
+  grid += `<span class="band" style="left:${x(p.D)};width:calc(${diff(p.D,p.prog.fi)+1} * var(--dw))"></span>`;
+  p.miles.forEach(m=>{ grid += `<span class="mline" style="left:${x(m.d)}" title="${esc(m.t)}"></span>`; });
+  if(today>=T0 && today<T1) grid += `<span class="today" style="left:${x(today)}"></span>`;
+  let flags = p.miles.filter(m=>m.short).map((m,i)=>`<span class="flag${i%2?" lo":""}" style="left:${x(m.d)}" title="${esc(m.t)}">${esc(m.short)}</span>`).join("");
+  if(today>=T0 && today<T1) flags += `<span class="flag today" style="left:${x(today)}">Avui</span>`;
+
+  let rows = "";
+  Object.keys(PHASES).forEach(ph=>{
+    const items = list.filter(t=>t.phase===ph);
+    if(!items.length) return;
+    rows += `<div class="g-group"><div class="g-label">${esc(PHASES[ph].name)}<small>${esc(PHASES[ph].range)}</small></div><div></div></div>`;
+    items.forEach(t=>{
+      const s = ST[statuses[t.id]], due = p.due[t.id];
+      let bar;
+      if(due){
+        let start = t.deps.length ? t.deps.map(d=>p.due[d]).filter(Boolean).reduce(maxD, T0) : today;
+        if(diff(start,due) < 3) start = addDays(due,-3);
+        if(start < T0) start = T0;
+        const w = Math.max(diff(start,due),1);
+        bar = `<button type="button" class="bar ${s.bar}${CRIT.has(t.id)?" crit":""}${isLate(t)?" late":""}" style="left:${x(start)};width:calc(${w} * var(--dw))" data-open="${t.id}" aria-label="#${t.id}, ${esc(s.label)}, data límit ${esc(fmtLong(due))}"><span class="due">${fmtShort(due)}</span></button>`;
+      }else{
+        const fi = addDays(p.D,-8), ini = maxD(today, addDays(p.D,-45));
+        const w = Math.max(diff(ini,fi),1);
+        const label = t.id<=27 ? "Dia 0" : "Primer dia";
+        bar = `<button type="button" class="bar var" style="left:${x(ini)};width:calc(${w} * var(--dw))" data-open="${t.id}" aria-label="#${t.id}, ${label}, data variable">${label} · com a molt tard el ${fmtShort(fi)}</button>`;
+      }
+      rows += `<div class="g-row${statuses[t.id]==="feta"?" done":""}"><div class="g-label"><span class="g-id">${t.id}</span><div style="flex:1;min-width:0"><button type="button" class="g-title" data-open="${t.id}">${esc(t.title)}</button><span class="g-pos">${esc(t.pos)}</span></div>${isRisk(t)?'<span class="risk" title="Sense el marge mínim">Risc</span>':""}${pill(t)}</div><div class="g-track">${bar}</div></div>`;
+    });
+  });
+  return `<div class="gantt-box"><div class="gantt" style="--days:${days}">
+    <div class="g-grid">${grid}</div>
+    <div class="g-head"><div class="g-row" style="min-height:0;border:0"><div class="g-label">Tasca</div><div class="g-track"><div class="g-months">${months}</div><div class="g-weeks">${weeks}</div><div class="g-flags">${flags}</div></div></div></div>
+    ${rows}
+  </div></div>
+  <div class="g-key">
+    <span><i class="k-crit"></i>Camí crític cap al go / no-go</span>
+    <span><i class="k-var"></i>Depèn de la resolució judicial</span>
+    <span><i class="k-late"></i>Vençuda</span>
+    <span><i class="k-mile"></i>Fita de l'escenari</span>
+    <span><i class="k-band"></i>Setmana del retorn</span>
+    <span><i class="k-today"></i>Avui</span>
+  </div>`;
+}
+
+// ---------- Kanban ----------
+function renderKanban(list){
+  const p = P();
+  const key = t => p.due[t.id] || addDays(p.D,-20);
+  const sortFn = (a,b)=> key(a).localeCompare(key(b)) || a.id-b.id;
+  return `<div class="kanban">${STATUSES.map(s=>{
+    const items = list.filter(t=>statuses[t.id]===s.k).sort(sortFn);
+    return `<section class="col" data-col="${s.k}" aria-label="${esc(s.label)}">
+      <div class="col-head"><h2><i style="background:var(${s.c})"></i>${esc(s.label)}</h2><span>${items.length}</span></div>
+      ${items.length ? items.map(t=>`<article class="card${CRIT.has(t.id)?" crit":""}" draggable="true" data-card="${t.id}">
+        <div class="card-top"><button type="button" class="card-title" data-open="${t.id}">${esc(t.title)}</button><span class="g-id">${t.id}</span></div>
+        <div class="card-meta"><span class="date${isLate(t)?" late":""}">${p.due[t.id]?fmtShort(p.due[t.id]):(t.id<=27?"Dia 0":"Primer dia")}</span><span>${esc(t.pos)}</span></div>
+        <div class="card-meta"><span class="tag ph">${t.phase}</span>${CRIT.has(t.id)?'<span class="tag crit">Crític</span>':""}${isRisk(t)?'<span class="tag crit">Risc</span>':""}
+          <label style="margin-left:auto"><span style="position:absolute;left:-9999px">Estat de la tasca ${t.id}</span>
+          <select id="sel-${t.id}" data-sel="${t.id}">${STATUSES.map(o=>`<option value="${o.k}"${o.k===s.k?" selected":""}>${o.label}</option>`).join("")}</select></label></div>
+      </article>`).join("") : `<p class="empty">Cap tasca</p>`}
+    </section>`;
+  }).join("")}</div>`;
+}
+
+// ---------- Programa ----------
+function notesOf(d){
+  const list = (CAL[d]||[]).map(n=>`<span class="note">${esc(n)}</span>`);
+  if(ALERTS[d]) list.push(`<span class="note alert">${esc(ALERTS[d])}</span>`);
+  return `<div class="notes">${list.join("")}</div>`;
+}
+function renderPrograma(){
+  const p = P(), pr = p.prog;
+  const warn = [];
+  if(!pr.ple) warn.push("Cap dia de Ple del Parlament dins la setmana del retorn: caldria acordar una sessió o ajornar l'anunci de deixar l'escó.");
+  if(PLE.has(pr.conf)) warn.push("La conferència cau en dia de Ple del Parlament: cal acordar l'hora amb el grup perquè no es buidi ni la sala ni l'hemicicle.");
+  if(ALERTS[pr.fi]) warn.push("Primer dia de normalitat: "+ALERTS[pr.fi]);
+  const rows = pr.rows.map(r=>`<tr class="${r.d===p.D||r.d===pr.ple||r.d===pr.conf?"key":""}${r.d===today?" now":""}">
+      <td class="day"><b>${WDS[parse(r.d).getDay()]} ${fmtShort(r.d)}</b>${r.d===p.D?"dia del retorn":"D + "+diff(p.D,r.d)}</td>
+      <td><b>${esc(r.titol)}</b><br><span class="muted">${esc(r.detall)}</span></td>
+      <td>${notesOf(r.d)}</td>
+    </tr>`).join("");
+  const pre = [
+    {d:addDays(p.D,-27), t:"Límit de l'escenari A: amb la resolució posterior, el pla passa a comprimit"},
+    {d:addDays(p.D,-12), t:"Reunió general de tots els equips"},
+    {d:addDays(p.D,-8),  t:"Límit per rebre la documentació del TS"},
+    {d:addDays(p.D,-5),  t:"Go / no-go final"},
+    {d:addDays(p.D,-2),  t:"Sortida de Waterloo i trasllat a la Catalunya Nord"}
+  ].map(m=>`<tr class="${m.d<today?"":""}"><td class="day"><b>${WDS[parse(m.d).getDay()]} ${fmtShort(m.d)}</b>${m.d<today?"ja passat":diff(today,m.d)+" dies"}</td><td>${esc(m.t)}</td><td>${notesOf(m.d)}</td></tr>`).join("");
+  return `${warn.length?`<div class="panel" style="padding:12px 14px"><div style="display:flex;flex-direction:column;gap:8px">${warn.map(w=>`<div class="warnbox">${esc(w)}</div>`).join("")}</div></div>`:""}
+  <div class="panel"><table><caption style="position:absolute;left:-9999px">Fites prèvies</caption><thead><tr><th>Data</th><th>Fita prèvia</th><th>Calendari</th></tr></thead><tbody>${pre}</tbody></table></div>
+  <div class="panel"><table><caption style="position:absolute;left:-9999px">Setmana del retorn</caption><thead><tr><th>Dia</th><th>Programa</th><th>Calendari</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="caption">El dia del Ple és el dimecres de la setmana del retorn, o el primer dia de sessió plenària si aquell dimecres el Parlament no es reuneix. La resta d'actes s'hi acomoden.</p>`;
+}
+
+// ---------- Escenaris ----------
+function renderEscenaris(){
+  const rows = SCEN.map(s=>{
+    const p = PLANS[s.id], r = riskCount(s.id), sel = s.id===ui.scen;
+    return `<tr class="${sel?"now":""}">
+      <td class="day"><b>${WDS[parse(s.D).getDay()]} ${fmtShort(s.D)}</b>${s.id}</td>
+      <td><div class="bar-mini"><i style="width:${Math.round(p.k*100)}px"></i><span class="date">${p.avail} dies · ${Math.round(p.k*100)} %</span></div></td>
+      <td style="white-space:nowrap">${p.prog.ple?fmtShort(p.prog.ple):"—"}<br><span class="muted">${p.prog.ple?WD[parse(p.prog.ple).getDay()]:"cap sessió"}</span></td>
+      <td style="white-space:nowrap">${fmtShort(p.prog.conf)}<br><span class="muted">${PLE.has(p.prog.conf)?"amb Ple":"sense Ple"}</span></td>
+      <td${r?' style="color:var(--crit);font-weight:600"':''}>${r}</td>
+      <td><b>${esc(s.verdict)}</b><br><span class="muted">${esc(s.note)}</span></td>
+      <td><button type="button" class="pick" data-scen="${s.id}"${sel?" disabled":""}>${sel?"Escenari actiu":"Mostra'l"}</button></td>
+    </tr>`;
+  }).join("");
+  const risky = TASKS.filter(t=>SCEN.some(s=>PLANS[s.id].risk[t.id]));
+  const detail = risky.map(t=>`<tr><td class="day"><b>#${t.id}</b>${t.min} dies</td><td>${esc(t.title)}<br><span class="muted">${esc(t.pos)}</span></td>${SCEN.map(s=>{
+    const r = PLANS[s.id].risk[t.id], d = PLANS[s.id].due[t.id];
+    return `<td${r?' style="color:var(--crit)"':''}>${d?fmtShort(d):"—"}${r?'<br><span class="muted" style="color:var(--crit)">sense marge</span>':''}</td>`;
+  }).join("")}</tr>`).join("");
+  return `<div class="panel"><table><thead><tr><th>Retorn</th><th>Preparació</th><th>Ple del Parlament</th><th>Conferència</th><th>Tasques en risc</th><th>Valoració</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="caption">La preparació és el temps que queda des d'avui fins al retorn, comparat amb els 80 dies del pla de referència. Les tasques en risc són les que, comprimides, queden per sota del marge mínim que necessiten.</p>
+  <div class="panel" style="margin-top:18px"><table><thead><tr><th>Tasca</th><th>Marge mínim</th>${SCEN.map(s=>`<th>${s.id} · ${fmtShort(s.D)}</th>`).join("")}</tr></thead><tbody>${detail}</tbody></table></div>
+  <p class="caption">Data límit de cada tasca sensible en cada escenari. Les marcades en vermell no arriben al marge mínim: o s'accelera la decisió, o aquell element del programa s'ha de desacoblar del retorn.</p>`;
+}
+
+// ---------- Render ----------
+const view = document.getElementById("view");
+function render(){
+  renderSummary();
+  if(ui.view==="programa"){ view.innerHTML = renderPrograma(); return; }
+  if(ui.view==="escenaris"){ view.innerHTML = renderEscenaris(); return; }
+  const list = visible();
+  if(!list.length){
+    view.innerHTML = `<div class="none">Cap tasca coincideix amb els filtres. <button type="button" class="chip" id="clear">Treu els filtres</button></div>`;
+    document.getElementById("clear").onclick=()=>{ Object.assign(ui,{phases:[],crit:false,open:false,area:"",pos:"",q:""}); saveUI(); syncControls(); render(); };
+    return;
+  }
+  const box0 = view.querySelector(".gantt-box"), sx = box0 ? box0.scrollLeft : null;
+  view.innerHTML = ui.view==="gantt" ? renderGantt(list) : renderKanban(list);
+  const box = view.querySelector(".gantt-box");
+  if(box && sx!=null) box.scrollLeft = sx;
+}
+
+view.addEventListener("click", e=>{
+  const c = e.target.closest("[data-cycle]");
+  if(c){ const id=+c.dataset.cycle; const i=STATUSES.findIndex(s=>s.k===statuses[id]); setStatus(id, STATUSES[(i+1)%STATUSES.length].k); return; }
+  const s = e.target.closest("[data-scen]");
+  if(s){ ui.scen=s.dataset.scen; saveUI(); syncControls(); render(); return; }
+  const o = e.target.closest("[data-open]");
+  if(o) openTask(+o.dataset.open);
+});
+view.addEventListener("change", e=>{ const s=e.target.closest("[data-sel]"); if(s) setStatus(+s.dataset.sel, s.value); });
+view.addEventListener("dragstart", e=>{ const c=e.target.closest("[data-card]"); if(!c) return; e.dataTransfer.setData("text/plain", c.dataset.card); e.dataTransfer.effectAllowed="move"; c.classList.add("dragging"); });
+view.addEventListener("dragend", e=>{ const c=e.target.closest("[data-card]"); if(c) c.classList.remove("dragging"); view.querySelectorAll(".col.over").forEach(x=>x.classList.remove("over")); });
+view.addEventListener("dragover", e=>{ const col=e.target.closest("[data-col]"); if(!col) return; e.preventDefault(); view.querySelectorAll(".col.over").forEach(x=>x!==col&&x.classList.remove("over")); col.classList.add("over"); });
+view.addEventListener("drop", e=>{ const col=e.target.closest("[data-col]"); if(!col) return; e.preventDefault(); const id=+e.dataTransfer.getData("text/plain"); if(id) setStatus(id, col.dataset.col); });
+
+// ---------- Fitxa ----------
+const dlg = document.getElementById("dlg"), dlgBody = document.getElementById("dlg-body");
+function openTask(id){
+  const t = byId[id], p = P(), s = ST[statuses[id]], due = p.due[id];
+  const deps = t.deps.map(d=>byId[d]), blk = blocks(id);
+  const li = x => `<li><button type="button" data-open="${x.id}">#${x.id} ${esc(x.title)}</button> <span class="pill ${ST[statuses[x.id]].pill}" style="cursor:default">${ST[statuses[x.id]].label}</span></li>`;
+  dlg.dataset.id = id;
+  dlgBody.innerHTML = `
+    <div class="dlg-head"><div><p class="eyebrow">Tasca ${t.id} · ${esc(PHASES[t.phase].name)}${CRIT.has(id)?' · <span style="color:var(--crit)">Camí crític</span>':""}</p><h2 id="dlg-title">${esc(t.title)}</h2></div><button type="button" class="x" id="dlg-x" aria-label="Tanca">×</button></div>
+    ${isRisk(t)?`<div class="warnbox">Amb el retorn del ${fmtShort(p.D)} aquesta tasca queda a ${diff(due,p.D)} dies del retorn i en necessita ${t.min} com a mínim.</div>`:""}
+    <dl class="facts">
+      <dt>Posició</dt><dd>${esc(t.pos)}</dd>
+      <dt>Àrea</dt><dd>${esc(t.area)}</dd>
+      <dt>Data límit</dt><dd>${due ? esc(fmtLong(due))+(isLate(t)?' <span style="color:var(--crit);font-weight:600">· vençuda</span>':"") : (id<=27?"Dia 0":"Primer dia")+' <span class="muted">(com a molt tard el '+fmtShort(addDays(p.D,-8))+')</span>'}</dd>
+      ${due?`<dt>Marge</dt><dd>${diff(due,p.D)} dies abans del retorn${t.min?` · mínim ${t.min}`:""}</dd>`:""}
+      ${darrer[id]?`<dt>Darrer canvi</dt><dd>${esc(darrer[id].qui||"algú")}, ${fa(darrer[id].quan)}</dd>`:""}
+    </dl>
+    <div><p class="eyebrow">Estat</p><div class="st-pick">${STATUSES.map(o=>`<button type="button" data-set="${o.k}" aria-pressed="${o.k===s.k}" class="${o.k===s.k?o.pill:""}">${o.label}</button>`).join("")}</div></div>
+    <div><p class="eyebrow">Depèn de</p>${deps.length?`<ul class="links">${deps.map(li).join("")}</ul>`:`<p class="muted" style="margin:0">Cap dependència. Es pot començar ja.</p>`}</div>
+    <div><p class="eyebrow">Desbloqueja</p>${blk.length?`<ul class="links">${blk.map(li).join("")}</ul>`:`<p class="muted" style="margin:0">Cap altra tasca en depèn.</p>`}</div>`;
+  if(!dlg.open) dlg.showModal();
+}
+dlg.addEventListener("click", e=>{
+  if(e.target===dlg || e.target.closest("#dlg-x")){ dlg.close(); return; }
+  const b = e.target.closest("[data-set]"); if(b){ setStatus(+dlg.dataset.id, b.dataset.set); return; }
+  const o = e.target.closest("[data-open]"); if(o) openTask(+o.dataset.open);
+});
+
+
+document.getElementById("exp").onclick = ()=>{
+  const blob = new Blob([JSON.stringify({statuses,updated,darrer},null,1)],{type:"application/json"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "retornada-estats-"+today+".json"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000);
+};
+const impf = document.getElementById("impf");
+document.getElementById("imp").onclick = ()=>impf.click();
+impf.onchange = async ()=>{
+  const f = impf.files[0]; if(!f) return;
+  try{ const d = JSON.parse(await f.text()); if(!d || typeof d.statuses!=="object") throw 0;
+    const ids=[]; Object.keys(d.statuses).forEach(k=>{ if(byId[k] && ST[d.statuses[k]]){ statuses[k]=d.statuses[k]; ids.push(+k); } });
+    updated = new Date().toISOString(); scheduleSave(ids); setSave("busy","Estats importats"); render();
+  }catch(e){ setSave("err","El fitxer no és una exportació vàlida del tauler"); }
+  impf.value = "";
+};
+const panes = {projecte:document.getElementById("pane-projecte"), tauler:document.getElementById("pane-tauler")};
+function route(){
+  const h = location.hash.replace("#","");
+  const cur = h==="tauler" ? "tauler" : (h.startsWith("s-") ? "projecte" : (h==="projecte" ? "projecte" : "projecte"));
+  Object.entries(panes).forEach(([k,el])=>{ el.hidden = k!==cur; document.getElementById("tab-"+k).setAttribute("aria-current", k===cur?"page":"false"); });
+  if(cur==="tauler") render();
+}
+window.addEventListener("hashchange", route);
+syncControls();
+render();
+route();
+})();
+</script>
+
+</body>
+</html>
