@@ -18,16 +18,25 @@ llistadelacompra/
 
 1. Puja aquests fitxers al repositori `llistadelacompra`, respectant la carpeta `public/`.
 2. A Render: **New → Web Service** i tria el repositori. Si detecta el `render.yaml`, ja ho omple tot; si no, posa `node server.js` com a *start command* i deixa el *build command* buit.
-3. A **Environment**, afegeix dues variables:
-   - `AUTH_USER`: l'usuari que compartireu.
-   - `AUTH_PASS`: la contrasenya d'accés a la pàgina.
+3. A **Environment**, afegeix la variable `AUTH_USERS` amb la llista de persones amb accés, en format `usuari:contrasenya` separades per comes:
+
+   ```
+   anna:2Gv8xR4pQm,marc:7Lk3wTzB9d,berta:Xq5nV2rHt8
+   ```
+
 4. Desplega. El navegador demanarà usuari i contrasenya la primera vegada.
+
+### Donar i retirar accés
+
+Edita `AUTH_USERS` a **Environment** i desa: Render torna a desplegar tot sol en pocs segons. Per retirar l'accés a algú, esborra la seva entrada; la resta de contrasenyes segueixen igual i no cal avisar ningú.
+
+Els registres del servei (**Logs**) mostren una línia `entrada de <usuari>` cada cop que algú obre la pàgina, i `acces denegat` als intents fallits.
 
 El `render.yaml` demana una instància *starter*, de pagament, que no s'adorm: la pàgina respon a l'instant sempre. Si vols una altra mida, canvia-ho a **Settings → Instance Type**.
 
 ## Dues contrasenyes diferents
 
-- La d'aquest servidor (`AUTH_USER` / `AUTH_PASS`) dona accés a llegir la pàgina.
+- La d'aquest servidor (`AUTH_USERS`), individual per a cada persona, dona accés a llegir la pàgina.
 - La de l'equip, dins del tauler, dona accés a llegir i escriure els estats de les tasques a Supabase.
 
 Són independents a propòsit: qui té la primera pot consultar el pla; només qui té les dues pot moure l'estat de les tasques.

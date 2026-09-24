@@ -1,5 +1,11 @@
 // Servidor mínim amb autenticació bàsica per al tauler de la retornada.
 // No té dependències: només el Node que Render ja porta.
+//
+// Credencials: la variable AUTH_USERS conté la llista de persones amb accés,
+// en format "usuari:contrasenya" separades per comes o per salts de línia.
+//   AUTH_USERS="anna:2Gv8xR4pQm,marc:7Lk3wTzB9d,berta:Xq5nV2rHt8"
+// Per retirar l'accés a algú, esborra la seva entrada i torna a desplegar.
+// També s'accepta la parella única AUTH_USER / AUTH_PASS.
 
 const http = require("node:http");
 const fs = require("node:fs");
@@ -7,8 +13,6 @@ const path = require("node:path");
 const crypto = require("node:crypto");
 
 const PORT = process.env.PORT || 10000;
-const USUARI = process.env.AUTH_USER || "";
-const CONTRASENYA = process.env.AUTH_PASS || "";
 const ARREL = path.join(__dirname, "public");
 
 const TIPUS = {
@@ -24,6 +28,19 @@ const TIPUS = {
   ".woff2": "font/woff2",
 };
 
+// Llista de credencials, indexades per usuari.
+const COMPTES = new Map();
+for (const parella of (process.env.AUTH_USERS || "").split(/[,\n]/)) {
+  const net = parella.trim();
+  if (!net) continue;
+  const tall = net.indexOf(":");
+  if (tall < 1) continue;
+  COMPTES.set(net.slice(0, tall).trim(), net.slice(tall + 1));
+}
+if (process.env.AUTH_USER && process.env.AUTH_PASS) {
+  COMPTES.set(process.env.AUTH_USER, process.env.AUTH_PASS);
+}
+
 // Comparació en temps constant: no revela la contrasenya pel temps de resposta.
 function igual(a, b) {
   const x = Buffer.from(String(a));
@@ -35,12 +52,19 @@ function igual(a, b) {
   return crypto.timingSafeEqual(x, y);
 }
 
-function autoritzat(req) {
+// Retorna el nom de qui entra, o null si les credencials no són bones.
+function qui(req) {
   const capçalera = req.headers.authorization || "";
-  if (!capçalera.startsWith("Basic ")) return false;
-  const [usuari, ...resta] = Buffer.from(capçalera.slice(6), "base64").toString("utf8").split(":");
-  const clau = resta.join(":");
-  return igual(usuari, USUARI) && igual(clau, CONTRASENYA);
+  if (!capçalera.startsWith("Basic ")) return null;
+  const desxifrat = Buffer.from(capçalera.slice(6), "base64").toString("utf8");
+  const tall = desxifrat.indexOf(":");
+  if (tall < 0) return null;
+  const usuari = desxifrat.slice(0, tall);
+  const clau = desxifrat.slice(tall + 1);
+  const guardada = COMPTES.get(usuari);
+  // Sempre es fa una comparació, hi hagi usuari o no, per no delatar quins existeixen.
+  const bona = igual(clau, guardada === undefined ? crypto.randomUUID() : guardada);
+  return guardada !== undefined && bona ? usuari : null;
 }
 
 function demanaClau(res) {
@@ -58,11 +82,16 @@ const servidor = http.createServer((req, res) => {
     return res.end("ok");
   }
 
-  if (!USUARI || !CONTRASENYA) {
+  if (!COMPTES.size) {
     res.writeHead(500, { "Content-Type": "text/plain; charset=utf-8" });
-    return res.end("Falten les variables AUTH_USER i AUTH_PASS.");
+    return res.end("Falta la variable AUTH_USERS.");
   }
-  if (!autoritzat(req)) return demanaClau(res);
+
+  const usuari = qui(req);
+  if (!usuari) {
+    console.log("acces denegat", req.method, req.url);
+    return demanaClau(res);
+  }
 
   let ruta = decodeURIComponent(new URL(req.url, "http://localhost").pathname);
   if (ruta === "/") ruta = "/index.html";
@@ -78,6 +107,7 @@ const servidor = http.createServer((req, res) => {
       res.writeHead(404, { "Content-Type": "text/plain; charset=utf-8" });
       return res.end("No s'ha trobat la pàgina.");
     }
+    if (ruta === "/index.html") console.log("entrada de", usuari);
     res.writeHead(200, {
       "Content-Type": TIPUS[path.extname(fitxer).toLowerCase()] || "application/octet-stream",
       "Cache-Control": "no-store",
@@ -89,4 +119,6 @@ const servidor = http.createServer((req, res) => {
   });
 });
 
-servidor.listen(PORT, () => console.log("El tauler escolta al port " + PORT));
+servidor.listen(PORT, () =>
+  console.log("El tauler escolta al port " + PORT + " amb " + COMPTES.size + " comptes"),
+);
